@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/StringLibraryTest/bin/Debug/net6.0/StringLibraryTest.dll",
+            "program": "${workspaceFolder}/ExpressionLibraryTest/bin/Debug/net6.0/ExpressionLibraryTest.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/StringLibraryTest",
+            "cwd": "${workspaceFolder}/ExpressionLibraryTest",
             "console": "internalConsole",
             "stopAtEntry": false
         },

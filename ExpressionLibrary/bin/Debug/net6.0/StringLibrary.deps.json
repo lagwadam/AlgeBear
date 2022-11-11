@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "StringLibrary/1.0.0": {
+      "ExpressionLibrary/1.0.0": {
         "runtime": {
-          "StringLibrary.dll": {}
+          "ExpressionLibrary.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "StringLibrary/1.0.0": {
+    "ExpressionLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

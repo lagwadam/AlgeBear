@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UtilityLibraries;
 
-namespace StringLibraryTest;
+namespace ExpressionLibraryTest;
 
 [TestClass]
 public class UnitTest1
@@ -42,7 +42,7 @@ public class UnitTest1
         string?[] words = { string.Empty, null };
         foreach (var word in words)
         {
-            bool result = StringLibrary.StartsWithUpper(word);
+            bool result = ExpressionLibrary.StartsWithUpper(word);
             Assert.IsTrue(true);
             Assert.IsFalse(result,
                    string.Format("Expected for '{0}': false; Actual: {1}",

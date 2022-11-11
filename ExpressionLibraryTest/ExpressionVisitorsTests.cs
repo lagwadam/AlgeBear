@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UtilityLibraries;
 using System.Diagnostics;
 
-namespace StringLibraryTest;
+namespace ExpressionLibraryTest;
 
 [TestClass]
 public class ExpressionVisitorsTest

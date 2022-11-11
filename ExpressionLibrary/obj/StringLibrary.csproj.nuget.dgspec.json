@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\StringLibrary\\StringLibrary.csproj": {}
+    "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\ExpressionLibrary\\ExpressionLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\StringLibrary\\StringLibrary.csproj": {
+    "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\ExpressionLibrary\\ExpressionLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\StringLibrary\\StringLibrary.csproj",
-        "projectName": "StringLibrary",
-        "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\StringLibrary\\StringLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\ExpressionLibrary\\ExpressionLibrary.csproj",
+        "projectName": "ExpressionLibrary",
+        "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\ExpressionLibrary\\ExpressionLibrary.csproj",
         "packagesPath": "C:\\Users\\lagwa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\StringLibrary\\obj\\",
+        "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\ClassLibraryProjects\\ExpressionLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lagwa\\AppData\\Roaming\\NuGet\\NuGet.Config"

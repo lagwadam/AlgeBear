@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UtilityLibraries;
 using System.Diagnostics;
 
-namespace StringLibraryTest;
+namespace ExpressionLibraryTest;
 
 [TestClass]
 public class ExpressionTest
@@ -11,7 +11,7 @@ public class ExpressionTest
     public void MatchSumTest()
     {
         // TODO: Get this passing
-        
+
         // var constant = new Constant(2.5);
         // var variable = new Variable("α");
 
@@ -22,9 +22,6 @@ public class ExpressionTest
         // var areEqual = true;
         // Assert.IsTrue(areEqual);
     }
-
-
-    #region ModelTests
 
     [TestMethod]
     public void ConstantTest()
@@ -106,5 +103,4 @@ public class ExpressionTest
         Debug.WriteLine(power.ToString());
         Assert.AreEqual("(2*(11 + α))^3", power.ToString());
     }
-    #endregion // ModelTests
 }

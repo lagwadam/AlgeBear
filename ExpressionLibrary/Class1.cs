@@ -1,6 +1,6 @@
 ﻿namespace UtilityLibraries;
 
-public static class StringLibrary
+public static class ExpressionLibrary
 {
     public static bool StartsWithUpper(this string? str)
     {
