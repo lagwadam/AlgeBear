@@ -4,7 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        // TODO Implement for Algebra App
+        // TODO: Remove this line ... Editing to commit a change
+        // TODO: Implement for Algebra App
         int row = 0;
 
         do
