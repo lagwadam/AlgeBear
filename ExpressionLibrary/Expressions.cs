@@ -22,7 +22,7 @@ namespace UtilityLibraries
     public interface IExpression
     {
         void Accept(IExpressionVisitor visitor);
-        bool Accept(ICompareVisitor visitor, IExpression expression);
+        T Accept<T>(ICompareVisitor<T> visitor, IExpression expression);
         ExpressionTypeEnum ExpressionType { get; }
     }
 
@@ -47,7 +47,7 @@ namespace UtilityLibraries
             return Val.ToString();
         }
 
-        public bool Accept(ICompareVisitor visitor, IExpression expression)
+        public T Accept<T>(ICompareVisitor<T> visitor, IExpression expression)
         {
             return visitor.Visit(this, expression);
         }
@@ -69,7 +69,7 @@ namespace UtilityLibraries
         {
             visitor.Visit(this);
         }
-        public bool Accept(ICompareVisitor visitor, IExpression expression)
+        public T Accept<T>(ICompareVisitor<T> visitor, IExpression expression)
         {
             return visitor.Visit(this, expression);
         }
@@ -81,6 +81,35 @@ namespace UtilityLibraries
         IExpression Right { get; }
         string Operation { get; }
     }
+
+// public abstract class UnaryOperation : IUnaryOperation
+//     {
+//         public IExpression Value { get; private set; }
+//         public IExpression Right { get; private set; }
+//         public abstract ExpressionTypeEnum ExpressionType { get; }
+//         public abstract string Operation { get; } 
+
+//         public BinaryOperation(IExpression left, IExpression right)
+//         {
+//             Left = left;
+//             Right = right;
+//         }
+
+//         public void Accept(IExpressionVisitor visitor)
+//         {
+//             visitor.Visit(this);
+//         }
+
+//         public virtual bool Accept(ICompareVisitor visitor, IExpression source)
+//         {
+//             return visitor.Visit(this, source);
+//         }
+        
+//         public override string ToString()
+//         {
+//             return $"({Left.ToString()}{Operation}{Right.ToString()})";
+//         }
+//     }
 
 public abstract class BinaryOperation : IBinaryOperation
     {
@@ -100,7 +129,7 @@ public abstract class BinaryOperation : IBinaryOperation
             visitor.Visit(this);
         }
 
-        public virtual bool Accept(ICompareVisitor visitor, IExpression source)
+        public virtual T Accept<T>(ICompareVisitor<T> visitor, IExpression source)
         {
             return visitor.Visit(this, source);
         }
@@ -116,7 +145,7 @@ public abstract class BinaryOperation : IBinaryOperation
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Sum;
         public override string Operation => " + ";
         public Sum(IExpression left, IExpression right) : base(left, right) {}
-        public override bool Accept(ICompareVisitor visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(ICompareVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Difference : BinaryOperation
@@ -125,7 +154,7 @@ public abstract class BinaryOperation : IBinaryOperation
         public override string Operation => " - ";
         public Difference(IExpression left, IExpression right) : base(left, right) {}
 
-        public override bool Accept(ICompareVisitor visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(ICompareVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Product : BinaryOperation
@@ -133,7 +162,7 @@ public abstract class BinaryOperation : IBinaryOperation
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Product;     
         public override string Operation => "*";
         public Product(IExpression left, IExpression right) : base(left, right) {}
-        public override bool Accept(ICompareVisitor visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(ICompareVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Quotient : BinaryOperation
@@ -141,7 +170,7 @@ public abstract class BinaryOperation : IBinaryOperation
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Quotient;
         public override string Operation => " / ";
         public Quotient(IExpression left, IExpression right) : base(left, right) {}
-        public override bool Accept(ICompareVisitor visitor, IExpression source) { return visitor.Visit(this, source); }        
+        public override T Accept<T>(ICompareVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }        
     }
 
     public class Power : BinaryOperation
@@ -149,6 +178,6 @@ public abstract class BinaryOperation : IBinaryOperation
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Power;
         public override string Operation => "^";
         public Power(IExpression left, IExpression right) : base(left, right) {}
-        public override bool Accept(ICompareVisitor visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(ICompareVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 }

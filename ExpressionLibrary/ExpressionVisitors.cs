@@ -9,11 +9,11 @@ namespace UtilityLibraries
         void Visit(BinaryOperation expression);
     }
     
-    public interface ICompareVisitor
+    public interface ICompareVisitor<TReturn>
     {
-        bool Visit(Constant expression, IExpression source);
-        bool Visit(Variable expression, IExpression source);
-        bool Visit(BinaryOperation expression, IExpression source);
+        TReturn Visit(Constant expression, IExpression source);
+        TReturn Visit(Variable expression, IExpression source);
+        TReturn Visit(BinaryOperation expression, IExpression source);
     }
 
     public class ExpressionVariablesVisitor : IExpressionVisitor
@@ -41,15 +41,14 @@ namespace UtilityLibraries
             expression.Right.Accept(this);
         }
     }
-
-    public class EquivalencyVisitor: ICompareVisitor
+    public class EquivalencyVisitor: ICompareVisitor<Boolean>
     {
         public IList<string> Transformations { get; private set; }
-        
         public EquivalencyVisitor()
         {
             Transformations = new List<string>();
         }
+
         public bool Visit(Constant target, IExpression source)
         {
             var constant = source as Constant;
@@ -59,24 +58,6 @@ namespace UtilityLibraries
             }
             
             return false; 
-            
-            // if (constant is null)
-            // {
-            //     var variable = source as Variable;
-            //     if (variable is null)
-            //     {
-            //         return false;
-            //     }
-            //     else
-            //     {
-            //         Transformations.Add($"{variable.Symbol} ↦ {target.Val}");
-            //         return true;
-            //     }
-            // }
-            // else
-            // {
-            //     return (target.Val == constant.Val); 
-            // }
         }
 
         public bool Visit(Variable target, IExpression source)

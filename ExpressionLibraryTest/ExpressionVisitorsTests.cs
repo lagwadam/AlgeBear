@@ -105,7 +105,7 @@ public class ExpressionVisitorsTest
         var variable = new Variable("α");
 
         var left = new Sum(new Constant(2.5), new Variable("α"));
-        var right = new Sum(new Constant(7), new Variable("𝜷"));
+        var right = new Sum(new Constant(7), new Variable("β"));
 
         var matchedLeft = new Sum(new Constant(2.5), new Constant(2.5));
         var matchedRight = new Sum(new Constant(7), new Constant(7));
@@ -121,6 +121,6 @@ public class ExpressionVisitorsTest
 
         Assert.IsTrue(isValid);
         Assert.AreEqual("α ↦ 2.5", visitor.Transformations.First(), "First transformation needs alpha goes to 2.5");
-        Assert.AreEqual("𝜷 ↦ 7", visitor.Transformations.Last(), "The other transformation needs beta goes to 2.5");
+        Assert.AreEqual("β ↦ 7", visitor.Transformations.Last(), "The other transformation needs beta goes to 2.5");
     }
 }
