@@ -2,46 +2,15 @@ using UtilityLibraries;
 
 namespace UtilityLibraries
 {
-    public interface IExpressionVisitor 
-    {
-        void Visit(Constant expression);
-        void Visit(Variable expression);
-        void Visit(BinaryOperation expression);
-    }
-    
-    public interface ICompareVisitor<TReturn>
+    public interface IExpressionTreeVisitor<TReturn>
     {
         TReturn Visit(Constant expression, IExpression source);
         TReturn Visit(Variable expression, IExpression source);
         TReturn Visit(BinaryOperation expression, IExpression source);
+        TReturn Visit(Container expression, IExpression source);
     }
 
-    public class ExpressionVariablesVisitor : IExpressionVisitor
-    {
-        public ISet<string> Variables { get; private set; }
-        
-        public ExpressionVariablesVisitor()
-        {
-            Variables = new HashSet<string>();
-        }
-        
-        public void Visit(Constant expression)
-        {
-            // No vars to add; no expressions to drill down into
-        }
-
-        public void Visit(Variable expression)
-        {
-            Variables.Add(expression.Symbol);
-        }
-
-        public void Visit(BinaryOperation expression)
-        {
-            expression.Left.Accept(this);
-            expression.Right.Accept(this);
-        }
-    }
-    public class EquivalencyVisitor: ICompareVisitor<Boolean>
+    public class EquivalencyVisitor: IExpressionTreeVisitor<Boolean>
     {
         public IList<string> Transformations { get; private set; }
         public EquivalencyVisitor()
@@ -54,7 +23,7 @@ namespace UtilityLibraries
             var constant = source as Constant;
             if (constant is not null)
             {
-                return (target.Val == constant.Val);
+                return (target.Value == constant.Value);
             }
             
             return false; 
@@ -67,7 +36,7 @@ namespace UtilityLibraries
             var constant = source as Constant;
             if (constant is not null)
             {
-                Transformations.Add($"{target.Symbol} ↦ {constant.Val}");
+                Transformations.Add($"{target.Symbol} ↦ {constant.Value}");
                 return true;
             }
 
@@ -104,6 +73,73 @@ namespace UtilityLibraries
 
                 return target.Right.Accept(this, casted.Right);
             }
+        }
+
+        public bool Visit(Container target, IExpression source)
+        {
+            if (target.ExpressionType != source.ExpressionType)
+            {
+                return false;
+            }
+
+            Container? casted = source as Container;
+            if (casted is null)
+            {
+                return false;
+            }
+            else
+            {
+                return target.Expression.Accept(this, target);
+            }
+        }
+    }
+
+    public class Transformation
+    {
+        public string Symbol { get; set; }
+        public double Value { get; set; }
+
+        public Transformation(string symbol, double value)
+        {
+            Symbol = symbol;
+            Value = value;
+        }
+    }
+
+    public class EvaluationVisitor: IExpressionTreeVisitor<Double>
+    {
+        public IDictionary<string, double> TransformationMap { get; private set; } 
+
+        public IList<string> Transformations { get; private set; }
+        public EvaluationVisitor()
+        {
+            Transformations = new List<string>();
+            TransformationMap =  new Dictionary<string, double>();
+        }
+        
+        public double Visit(Constant target, IExpression source)
+        {
+            return target.Value; 
+        }
+
+        public double Visit(Variable target, IExpression source)
+        {
+            if(TransformationMap.ContainsKey(target.Symbol))
+            {
+                throw new InvalidDataException("Cannot evalute {target.Symbol}. Value not specified in TransformationMap");
+            }
+
+            return TransformationMap[target.Symbol];
+        }
+
+        public double Visit(BinaryOperation target, IExpression source)
+        {
+            return 0;
+        }
+
+        public double Visit(Container container, IExpression source)
+        {
+            return container.Accept(this, source);
         }
     }
 }
