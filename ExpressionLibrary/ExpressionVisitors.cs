@@ -53,33 +53,35 @@ namespace UtilityLibraries
         public bool Visit(Constant target, IExpression source)
         {
             var constant = source as Constant;
-            if (constant is null)
+            if (constant is not null)
             {
-                var variable = source as Variable;
-                if (variable is null)
-                {
-                    return false;
-                }
-                else
-                {
-                    Transformations.Add($"{variable.Symbol} ↦ {target.Val}");
-                    return true;
-                }
+                return (target.Val == constant.Val);
             }
-            else
-            {
-                return (target.Val == constant.Val); 
-            }
+            
+            return false; 
+            
+            // if (constant is null)
+            // {
+            //     var variable = source as Variable;
+            //     if (variable is null)
+            //     {
+            //         return false;
+            //     }
+            //     else
+            //     {
+            //         Transformations.Add($"{variable.Symbol} ↦ {target.Val}");
+            //         return true;
+            //     }
+            // }
+            // else
+            // {
+            //     return (target.Val == constant.Val); 
+            // }
         }
 
         public bool Visit(Variable target, IExpression source)
         {
             var variable = source as Variable;
-            if (variable is not null)
-            {
-                Transformations.Add($"{target.Symbol} ↦ {variable.Symbol}");
-                return true;
-            }
             
             var constant = source as Constant;
             if (constant is not null)
@@ -88,12 +90,18 @@ namespace UtilityLibraries
                 return true;
             }
 
+            if (variable is not null)
+            {
+                Transformations.Add($"{target.Symbol} ↦ {variable.Symbol}");
+                return true;
+            }
+            
             return false;
         }
 
-        public bool Visit(BinaryOperation expression, IExpression source)
+        public bool Visit(BinaryOperation target, IExpression source)
         {
-            if (expression.ExpressionType != source.ExpressionType)
+            if (target.ExpressionType != source.ExpressionType)
             {
                 return false;
             }
@@ -106,14 +114,14 @@ namespace UtilityLibraries
             else
             {
                 // Check both sides of operation
-                bool leftValid = casted.Left.Accept(this, expression.Left);
+                bool leftValid = target.Left.Accept(this, casted.Left);
 
                 if(!leftValid)
                 {
                     return false;
                 } 
 
-                return casted.Right.Accept(this, expression.Right);
+                return target.Right.Accept(this, casted.Right);
             }
         }
     }

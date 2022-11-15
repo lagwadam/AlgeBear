@@ -8,22 +8,6 @@ namespace ExpressionLibraryTest;
 public class ExpressionTest
 {
     [TestMethod]
-    public void MatchSumTest()
-    {
-        // TODO: Get this passing
-
-        // var constant = new Constant(2.5);
-        // var variable = new Variable("α");
-
-        // var expression = new Sum(constant, variable);   
-        // var candidate = new Sum(constant, new Constant(2.5));
-        // Debug.WriteLine($"Expression: {expression.ToString()}");
-        
-        // var areEqual = true;
-        // Assert.IsTrue(areEqual);
-    }
-
-    [TestMethod]
     public void ConstantTest()
     {
         var constant = new Constant(3);
