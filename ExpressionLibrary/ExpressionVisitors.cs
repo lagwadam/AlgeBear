@@ -75,33 +75,46 @@ namespace UtilityLibraries
         public bool Visit(Variable target, IExpression source)
         {
             var variable = source as Variable;
-            if (variable is null)
+            if (variable is not null)
             {
-                return false;
-            } 
+                Transformations.Add($"{target.Symbol} ↦ {variable.Symbol}");
+                return true;
+            }
+            
+            var constant = source as Constant;
+            if (constant is not null)
+            {
+                Transformations.Add($"{target.Symbol} ↦ {constant.Val}");
+                return true;
+            }
 
-            Transformations.Add(target.Symbol);
-            Transformations.Add($"{variable.Symbol} ↦ {target.Symbol}");
-
-            return true;
+            return false;
         }
 
         public bool Visit(BinaryOperation expression, IExpression source)
         {
-            var casted = source as BinaryOperation;
+            if (expression.ExpressionType != source.ExpressionType)
+            {
+                return false;
+            }
+
+            BinaryOperation? casted = source as BinaryOperation;
             if (casted is null)
             {
                 return false;
             }
             else
             {
-                // return casted.Left.Accept(this)
-                //bool leftEquivalent = expression.Left
-                     
+                // Check both sides of operation
+                bool leftValid = casted.Left.Accept(this, expression.Left);
+
+                if(!leftValid)
+                {
+                    return false;
+                } 
+
+                return casted.Right.Accept(this, expression.Right);
             }
-            // return expression.Left.Accept(this, 
-            // expression.Left.Accept(this, source);
-            return true;
         }
     }
 }
