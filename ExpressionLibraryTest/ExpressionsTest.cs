@@ -52,7 +52,7 @@ public class ExpressionTest
         var product = new Product(constant, variable); 
 
         Debug.WriteLine($"Product: {product.ToString()}");       
-        Assert.AreEqual("2.5*α", product.ToString());
+        Assert.AreEqual("(2.5*α)", product.ToString());
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class ExpressionTest
         var product = new Product(constant1, sum);
 
         Debug.WriteLine(product.ToString());
-        Assert.AreEqual("2*(11 + α)", product.ToString());
+        Assert.AreEqual("(2*(11 + α))", product.ToString());
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class ExpressionTest
         var power = new Power(x, c);
 
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("x^3", power.ToString());
+        Assert.AreEqual("(x^3)", power.ToString());
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class ExpressionTest
         var power = new Power(sum, product);
 
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("((x + 3))^(3*x)", power.ToString());
+        Assert.AreEqual("((x + 3)^(3*x))", power.ToString());
     }
 
     [TestMethod]
@@ -101,6 +101,6 @@ public class ExpressionTest
         var product = new Product(new Constant(2), sum);
         var power = new Power(product, new Constant(3));
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("(2*(11 + α))^3", power.ToString());
+        Assert.AreEqual("((2*(11 + α))^3)", power.ToString());
     }
 }

@@ -18,6 +18,11 @@ public class ExpressionVisitorsTest
 
         expression.Accept(visitor);
 
+        var actualVariables = visitor.Variables;
+        // Debug.WriteLine();
+        Debug.WriteLine(actualVariables);
+        Debug.WriteLine(expression.ToString());
+
         Assert.AreEqual("α", visitor.Variables.Single(), "Alpha should be a variable, and there should be one variable.");
     }
 
@@ -38,6 +43,8 @@ public class ExpressionVisitorsTest
         var expression = new Product(new Constant(3), sum);
         
         expression.Accept(visitor);
+
+        Debug.WriteLine(expression.ToString());
 
         var vars = visitor.Variables;
 

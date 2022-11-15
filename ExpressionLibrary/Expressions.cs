@@ -7,15 +7,66 @@ namespace UtilityLibraries
     public interface IComposite : IExpression
     {
     }
-    
+
+    public enum ExpressionTypeEnum
+    {
+        Constant,
+        Difference,
+        Power,
+        Product,
+        Quotient,
+        Sum,
+        Variable
+    }
+
     public interface IExpression
     {
-        public void Accept(IExpressionVisitor v);
+        void Accept(IExpressionVisitor v);
+        ExpressionTypeEnum ExpressionType { get; }
+    }
+
+    public interface IBinaryOperation : IComposite
+    {
+        IExpression Left { get; }
+        IExpression Right { get; }
+    }
+
+    public abstract class BinaryOperation : IBinaryOperation
+    {
+        public IExpression Left { get; private set; }
+        public IExpression Right { get; private set; }
+
+        public abstract ExpressionTypeEnum ExpressionType { get; }
+
+        public BinaryOperation(IExpression left, IExpression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public void Accept(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public void Accept(ICompareVisitor visitor, IExpression source)
+        {
+            // visitor.Visit(this, source);
+        }
+
+        public override string ToString()
+        {
+            return $"({Left.ToString()}, {Right.ToString()})";
+        }
     }
 
     public class Constant : IPrimative
     {
+
         public double Val { get; private set; }
+
+        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Constant;
+
         public Constant(double val)
         {
             Val = val;
@@ -35,137 +86,79 @@ namespace UtilityLibraries
     public class Variable : IPrimative
     {
         public string Symbol { get; private set; }
-
+        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Variable;
         public Variable(string symbol)
         {
             Symbol = symbol;
         }
-
         public override string ToString()
         {
             return Symbol;
         }
-
         public void Accept(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
     }
 
-    public class Sum : IExpression
+    public class Sum : BinaryOperation
     {
-        public IExpression Left { get; private set; }
-        public IExpression Right { get; private set; }
-
-        public Sum(IExpression left, IExpression right)
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Sum;
+        public Sum(IExpression left, IExpression right) : base(left, right)
         {
-            Left = left;
-            Right = right;
         }
-
-        public void Accept(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
         public override string ToString()
         {
             return $"({Left.ToString()} + {Right.ToString()})";
         }
     }
 
-    public class Difference : IExpression
+    public class Difference : BinaryOperation
     {
-        public IExpression Left { get; private set; }
-        public IExpression Right { get; private set; }
-
-        public Difference(IExpression left, IExpression right)
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Difference;
+        public Difference(IExpression left, IExpression right) : base(left, right)
         {
-            Left = left;
-            Right = right;
         }
-
         public override string ToString()
         {
             return $"({Left.ToString()} - {Right.ToString()})";
         }
-
-        public void Accept(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
     }
 
-    public class Product : IExpression
+    public class Product : BinaryOperation
     {
-        public IExpression Left { get; private set; }
-        public IExpression Right { get; private set; }
-
-        public Product(IExpression left, IExpression right)
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Product;
+        public Product(IExpression left, IExpression right) : base(left, right)
         {
-            Left = left;
-            Right = right;
         }
 
         public override string ToString()
         {
-            return $"{Left.ToString()}*{Right.ToString()}";
-        }
-
-        public void Accept(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
+            return $"({Left.ToString()}*{Right.ToString()})";
         }
     }
 
-
-    public class Quotient : IExpression
+    public class Quotient : BinaryOperation
     {
-        public IExpression Dividend { get; private set; }
-        public IExpression Divisor { get; private set; }
-
-        public Quotient(IExpression dividend, IExpression divisor)
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Quotient;
+        public Quotient(IExpression left, IExpression right) : base(left, right)
         {
-            Dividend = dividend;
-            Divisor = divisor;
         }
-
         public override string ToString()
         {
-            return $"({Dividend.ToString()} / {Divisor.ToString()})";
-        }
-
-        public void Accept(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
+            return $"({Left.ToString()} / {Right.ToString()})";
         }
     }
 
-    public class Power : IExpression
+    public class Power : BinaryOperation
     {
-        public IExpression Radix { get; private set; }
-        public IExpression Exponent { get; private set; }
-
-        public Power(IExpression radix, IExpression exponent)
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Power;
+        public Power(IExpression left, IExpression right) : base(left, right)
         {
-            Radix = radix;
-            Exponent = exponent;
         }
-
         public override string ToString()
         {
-            var radixString = Radix.ToString();
-            if (Radix is not IPrimative)
-                radixString = $"({radixString})";
-            var exponentString = Exponent.ToString();
-            if (Exponent is not IPrimative)
-                exponentString = $"({exponentString})";
-            return $"{radixString}^{exponentString}";
-        }
-
-        public void Accept(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
+            return $"({Left.ToString()}^{Right.ToString()})";
         }
     }
 }
