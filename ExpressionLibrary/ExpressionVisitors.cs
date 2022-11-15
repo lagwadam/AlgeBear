@@ -11,9 +11,9 @@ namespace UtilityLibraries
     
     public interface ICompareVisitor
     {
-    //     void Visit(Constant expression, IExpression source);
-    //     void Visit(Variable expression, IExpression source);
-    //     void Visit(BinaryOperation expression, IExpression source);
+        bool Visit(Constant expression, IExpression source);
+        bool Visit(Variable expression, IExpression source);
+        bool Visit(BinaryOperation expression, IExpression source);
     }
 
     public class ExpressionVariablesVisitor : IExpressionVisitor
@@ -62,7 +62,7 @@ namespace UtilityLibraries
                 }
                 else
                 {
-                    // Transformations.Add($"{variable} ↦ {constant.Val}");
+                    Transformations.Add($"{variable.Symbol} ↦ {target.Val}");
                     return true;
                 }
             }
@@ -72,9 +72,18 @@ namespace UtilityLibraries
             }
         }
 
-        public void Visit(Variable expression)
+        public bool Visit(Variable target, IExpression source)
         {
-            Transformations.Add(expression.Symbol);
+            var variable = source as Variable;
+            if (variable is null)
+            {
+                return false;
+            } 
+
+            Transformations.Add(target.Symbol);
+            Transformations.Add($"{variable.Symbol} ↦ {target.Symbol}");
+
+            return true;
         }
 
         public bool Visit(BinaryOperation expression, IExpression source)
@@ -86,6 +95,7 @@ namespace UtilityLibraries
             }
             else
             {
+                // return casted.Left.Accept(this)
                 //bool leftEquivalent = expression.Left
                      
             }
@@ -93,35 +103,5 @@ namespace UtilityLibraries
             // expression.Left.Accept(this, source);
             return true;
         }
-
-        // public void Visit(Sum expression)
-        // {
-        //     expression.Left.Accept(this);
-        //     expression.Right.Accept(this);
-        // }
-
-        // public void Visit(Difference expression)
-        // {
-        //     expression.Left.Accept(this);
-        //     expression.Right.Accept(this);
-        // }
-
-        // public void Visit(Product expression)
-        // {
-        //     expression.Left.Accept(this);
-        //     expression.Right.Accept(this);
-        // }
-
-        // public void Visit(Quotient expression)
-        // {
-        //     expression.Dividend.Accept(this);
-        //     expression.Divisor.Accept(this);
-        // }
-
-        // public void Visit(Power expression)
-        // {
-        //     expression.Radix.Accept(this);
-        //     expression.Exponent.Accept(this);
-        // }
     }
 }

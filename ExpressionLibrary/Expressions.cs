@@ -29,14 +29,15 @@ namespace UtilityLibraries
     {
         IExpression Left { get; }
         IExpression Right { get; }
+        string Operation { get; }
     }
 
     public abstract class BinaryOperation : IBinaryOperation
     {
         public IExpression Left { get; private set; }
         public IExpression Right { get; private set; }
-
         public abstract ExpressionTypeEnum ExpressionType { get; }
+        public abstract string Operation { get; } 
 
         public BinaryOperation(IExpression left, IExpression right)
         {
@@ -49,23 +50,19 @@ namespace UtilityLibraries
             visitor.Visit(this);
         }
 
-        public void Accept(ICompareVisitor visitor, IExpression source)
-        {
-            // visitor.Visit(this, source);
-        }
-
+        public abstract void Accept(ICompareVisitor visitor, IExpression source);
+        
         public override string ToString()
         {
-            return $"({Left.ToString()}, {Right.ToString()})";
+            return $"({Left.ToString()}{Operation}{Right.ToString()})";
         }
     }
 
     public class Constant : IPrimative
     {
-
         public double Val { get; private set; }
 
-        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Constant;
+        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Constant; 
 
         public Constant(double val)
         {
@@ -104,61 +101,46 @@ namespace UtilityLibraries
     public class Sum : BinaryOperation
     {
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Sum;
-        public Sum(IExpression left, IExpression right) : base(left, right)
-        {
-        }
-        public override string ToString()
-        {
-            return $"({Left.ToString()} + {Right.ToString()})";
-        }
+        public override string Operation => " + ";
+        public Sum(IExpression left, IExpression right) : base(left, right) {}
+        
+        // public override string ToString()
+        // {
+        //     return $"({Left.ToString()} + {Right.ToString()})";
+        // }
+        public override void Accept(ICompareVisitor visitor, IExpression source) { visitor.Visit(this, source); }
     }
 
     public class Difference : BinaryOperation
     {
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Difference;
-        public Difference(IExpression left, IExpression right) : base(left, right)
-        {
-        }
-        public override string ToString()
-        {
-            return $"({Left.ToString()} - {Right.ToString()})";
-        }
+        public override string Operation => " - ";
+        public Difference(IExpression left, IExpression right) : base(left, right) {}
+
+        public override void Accept(ICompareVisitor visitor, IExpression source) { visitor.Visit(this, source); }
     }
 
     public class Product : BinaryOperation
     {
-        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Product;
-        public Product(IExpression left, IExpression right) : base(left, right)
-        {
-        }
-
-        public override string ToString()
-        {
-            return $"({Left.ToString()}*{Right.ToString()})";
-        }
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Product;     
+        public override string Operation => "*";
+        public Product(IExpression left, IExpression right) : base(left, right) {}
+        public override void Accept(ICompareVisitor visitor, IExpression source) { visitor.Visit(this, source); }
     }
 
     public class Quotient : BinaryOperation
     {
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Quotient;
-        public Quotient(IExpression left, IExpression right) : base(left, right)
-        {
-        }
-        public override string ToString()
-        {
-            return $"({Left.ToString()} / {Right.ToString()})";
-        }
+        public override string Operation => " / ";
+        public Quotient(IExpression left, IExpression right) : base(left, right) {}
+        public override void Accept(ICompareVisitor visitor, IExpression source) { visitor.Visit(this, source); }        
     }
 
     public class Power : BinaryOperation
     {
         public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Power;
-        public Power(IExpression left, IExpression right) : base(left, right)
-        {
-        }
-        public override string ToString()
-        {
-            return $"({Left.ToString()}^{Right.ToString()})";
-        }
+        public override string Operation => "^";
+        public Power(IExpression left, IExpression right) : base(left, right) {}
+        public override void Accept(ICompareVisitor visitor, IExpression source) { visitor.Visit(this, source); }
     }
 }

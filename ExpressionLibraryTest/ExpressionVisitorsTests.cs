@@ -54,4 +54,23 @@ public class ExpressionVisitorsTest
         Assert.IsTrue(vars.Contains("γ"));
         Assert.IsTrue(vars.Contains("δ"));
     }
+
+    [TestMethod]
+    public void CompareVisitorSumTest()
+    {
+        var visitor = new ExpressionVariablesVisitor();
+        var constant = new Constant(2.5);
+        var variable = new Variable("α");
+
+        var expression = new Sum(constant, variable);
+
+        expression.Accept(visitor);
+
+        var actualVariables = visitor.Variables;
+        // Debug.WriteLine();
+        Debug.WriteLine(actualVariables);
+        Debug.WriteLine(expression.ToString());
+
+        Assert.AreEqual("α", visitor.Variables.Single(), "Alpha should be a variable, and there should be one variable.");
+    }
 }
