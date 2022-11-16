@@ -4,10 +4,12 @@ namespace UtilityLibraries
 {
     public interface ISimpleExpressionVisitor 
     {
-        void Visit(Constant expression);
-        void Visit(Variable expression);
         void Visit(BinaryOperation expression);
+        void Visit(Constant expression);
         void Visit(Container expression);
+        void Visit(Polynomial expression);
+        void Visit(Root expression);
+        void Visit(Variable expression);
     }
     public class ExpressionVariablesVisitor : ISimpleExpressionVisitor
     {
@@ -34,9 +36,19 @@ namespace UtilityLibraries
             expression.Right.Accept(this);
         }
 
-        public void Visit(Container container)
+        public void Visit(Container expression)
         {
-            container.Expression.Accept(this);
+            expression.InnerExpression.Accept(this);
+        }
+
+        public void Visit(Polynomial expression)
+        {
+            expression.InnerExpression.Accept(this);
+        }
+
+        public void Visit(Root expression)
+        {
+            expression.InnerExpression.Accept(this);
         }
     }
 }

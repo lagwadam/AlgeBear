@@ -5,9 +5,11 @@ namespace UtilityLibraries
     public interface ITreeComparisonVisitor<TReturn>
     {
         TReturn Visit(Constant expression, IExpression source);
-        TReturn Visit(Variable expression, IExpression source);
-        TReturn Visit(BinaryOperation expression, IExpression source);
         TReturn Visit(Container expression, IExpression source);
+        TReturn Visit(BinaryOperation expression, IExpression source);
+        TReturn Visit(Polynomial expression, IExpression source);
+        TReturn Visit(Root expression, IExpression source);
+        TReturn Visit(Variable expression, IExpression source);
     }
 
     public class EquivalencyVisitor: ITreeComparisonVisitor<Boolean>
@@ -27,6 +29,24 @@ namespace UtilityLibraries
             }
             
             return false; 
+        }
+
+        public bool Visit(Container target, IExpression source)
+        {
+            if (target.ExpressionType != source.ExpressionType)
+            {
+                return false;
+            }
+
+            Container casted = source as Container;
+            if (casted is null)
+            {
+                return false;
+            }
+            else
+            {
+                return target.InnerExpression.Accept(this, target);
+            }
         }
 
         public bool Visit(Variable target, IExpression source)
@@ -56,7 +76,7 @@ namespace UtilityLibraries
                 return false;
             }
 
-            BinaryOperation? casted = source as BinaryOperation;
+            BinaryOperation casted = source as BinaryOperation;
             if (casted is null)
             {
                 return false;
@@ -74,22 +94,40 @@ namespace UtilityLibraries
                 return target.Right.Accept(this, casted.Right);
             }
         }
-
-        public bool Visit(Container target, IExpression source)
+       
+        public bool Visit(Polynomial target, IExpression source)
         {
             if (target.ExpressionType != source.ExpressionType)
             {
                 return false;
             }
 
-            Container? casted = source as Container;
+            Polynomial casted = source as Polynomial;
             if (casted is null)
             {
                 return false;
             }
             else
             {
-                return target.Expression.Accept(this, target);
+                return target.InnerExpression.Accept(this, casted.InnerExpression);
+            }
+        }
+
+        public bool Visit(Root target, IExpression source)
+        {
+            if (target.ExpressionType != source.ExpressionType)
+            {
+                return false;
+            }
+
+            Root casted = source as Root;
+            if (casted is null)
+            {
+                return false;
+            }
+            else
+            {
+                return target.InnerExpression.Accept(this, target);
             }
         }
     }

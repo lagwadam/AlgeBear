@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UtilityLibraries;
 using System.Diagnostics;
 
-namespace ExpressionLibraryTest;
+namespace ExpressionLibraryTests;
 
 [TestClass]
 public class ExpressionTest
@@ -20,12 +20,12 @@ public class ExpressionTest
     public void SumTest()
     {
         var constant = new Constant(2.5);
-        var variable = new Variable("α");
+        var innerSum = new Sum(new Variable("α"), new Constant(3.5));
 
-        var sum = new Sum(constant, variable);   
+        var sum = new Sum(constant, innerSum);   
 
         Debug.WriteLine($"Sum: {sum.ToString()}");     
-        Assert.AreEqual("(2.5 + α)", sum.ToString());
+        Assert.AreEqual("(2.5 + (α + 3.5))", sum.ToString());
     }
 
     [TestMethod]

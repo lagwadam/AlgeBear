@@ -22,6 +22,17 @@ public class ExpressionTreeVisitorTests
 
         double sum = expression.Accept(visitor);
 
-        Assert.AreEqual(9.5, sum, "Alpha should be a variable, and there should be one variable.");
+        Assert.AreEqual(9.5, sum, "Alpha should be a variable, and it should be the only one.");
+    }
+    [TestMethod]
+    public void SimplicationVisitorSumTest()
+    {
+        var visitor = new SimplificationVisitor();
+
+        var expression = new Sum(new Constant(2.5), new Constant(3));
+
+        bool valid = expression.Accept(visitor);
+
+        // Assert.AreEqual(9.5, sum, "Alpha should be a variable, and it should be the only one.");
     }
 }
