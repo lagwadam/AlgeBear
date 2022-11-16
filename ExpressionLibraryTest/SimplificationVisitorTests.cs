@@ -8,7 +8,7 @@ namespace ExpressionLibraryTest;
 public class SimplificationVisitorTests
 {
     [TestMethod]
-    public void SimplicationVisitorSumTest()
+    public void SimplicationVisitor_SumTest()
     {
         var visitor = new SimplificationVisitor();
 
@@ -23,7 +23,7 @@ public class SimplificationVisitorTests
     }
 
     [TestMethod]
-    public void SimplicationVisitorSumAndProductTest()
+    public void SimplicationVisitor_SumAndProductTest()
     {
         var visitor = new SimplificationVisitor();
 
@@ -44,7 +44,7 @@ public class SimplificationVisitorTests
     }
 
     [TestMethod]
-    public void SimplicationVisitorZeroSumWithProductTest()
+    public void SimplicationVisitor_ZeroSumWithProductTest()
     {
         var visitor = new SimplificationVisitor();
 
@@ -59,7 +59,7 @@ public class SimplificationVisitorTests
     }
 
     [TestMethod]
-    public void SimplicationVisitorZeroSumWithZeroProductTest()
+    public void SimplicationVisitor_ZeroSumWithZeroProductTest()
     {
         var visitor = new SimplificationVisitor();
 
@@ -91,5 +91,96 @@ public class SimplificationVisitorTests
         Assert.AreEqual("8", rootNode.ToString(), "Multiplying on Right by 1 should return a simplfied Left expression which is 5+3=8");
         
         Debug.WriteLine($"rootNode: {rootNode.ToString()}");
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_Add_Polynomials_Test()
+    {
+        var leftArray = new Double[] {1, 1, 1};
+        var rightArray = new Double[] {-1, 2, -1, 1};
+
+        var leftPoly = new Polynomial(leftArray, new Variable("x"));
+        var rightPoly = new Polynomial(rightArray, new Variable("x"));
+
+        Debug.WriteLine(leftPoly.ToString());
+        Debug.WriteLine(rightPoly.ToString());
+
+        var root = new RootNode(new Sum(leftPoly, rightPoly));
+
+        new SimplificationVisitor().Visit(root);
+
+        Debug.WriteLine(root.ToString());
+        Assert.AreEqual("3x + 1x^3", root.ToString(), "Expanded coeffs should be {0, 1, 0, 3}"); 
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_Expand_Constant_Polynomials_Test()
+    {
+        var leftArray = new Double[] {2};
+        var rightArray = new Double[] {-3};
+
+        var leftPoly = new Polynomial(leftArray, new Variable("x"));
+        var rightPoly = new Polynomial(rightArray, new Variable("x"));
+
+        var root = new RootNode(new Product(leftPoly, rightPoly));
+
+        new SimplificationVisitor().Visit(root);
+        
+        Debug.WriteLine(root.ToString());
+        Assert.AreEqual("-6", root.ToString(), "Expanded coeffs should be {-6}");
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_Expand_Linear_Polynomials_Test()
+    {
+        var leftArray = new Double[] {-1, 1};
+        var rightArray = new Double[] {1, 1};
+
+        var leftPoly = new Polynomial(leftArray, new Variable("x"));
+        var rightPoly = new Polynomial(rightArray, new Variable("x"));
+
+        var root = new RootNode(new Product(leftPoly, rightPoly));
+
+        new SimplificationVisitor().Visit(root);
+        
+        Debug.WriteLine(root.ToString());
+        Assert.AreEqual("-1 + 1x^2", root.ToString(), "Expanded coeffs should be {-6}");
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_Expand_Linear_Times_Quadradic_Polynomials_Test()
+    {
+        var leftArray = new Double[] {-1, 1, 1};
+        var rightArray = new Double[] {1, 1};
+
+        var leftPoly = new Polynomial(leftArray, new Variable("x"));
+        var rightPoly = new Polynomial(rightArray, new Variable("x"));
+
+        var root = new RootNode(new Product(leftPoly, rightPoly));
+
+        new SimplificationVisitor().Visit(root);
+        
+        Debug.WriteLine(root.ToString());
+        Assert.AreEqual("-1 + 2x^2 + 1x^3", root.ToString(), "Expanded coeffs should be {-1, 2, 1}");
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_ExpandPolynomial_Test()
+    {
+        var leftArray = new Double[] {1, 1, 1};
+        var rightArray = new Double[] {-1, 2, -1, 1};
+
+        var leftPoly = new Polynomial(leftArray, new Variable("x"));
+        var rightPoly = new Polynomial(rightArray, new Variable("x"));
+
+        Debug.WriteLine(leftPoly.ToString());
+        Debug.WriteLine(rightPoly.ToString());
+
+        var root = new RootNode(new Product(leftPoly, rightPoly));
+
+        new SimplificationVisitor().Visit(root);
+
+        Debug.WriteLine(root.ToString());
+        Assert.AreEqual("-1 + 1x + 2x^3 + 1x^5", root.ToString(), "Expanded coeffs should be {-1, 1, 1, 1, 0, 0, 1}");
     }
 }
