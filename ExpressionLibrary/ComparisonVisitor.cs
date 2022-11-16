@@ -8,7 +8,7 @@ namespace UtilityLibraries
         TReturn Visit(Container expression, IExpression source);
         TReturn Visit(BinaryOperation expression, IExpression source);
         TReturn Visit(Polynomial expression, IExpression source);
-        TReturn Visit(Root expression, IExpression source);
+        TReturn Visit(RootNode expression, IExpression source);
         TReturn Visit(Variable expression, IExpression source);
     }
 
@@ -113,14 +113,14 @@ namespace UtilityLibraries
             }
         }
 
-        public bool Visit(Root target, IExpression source)
+        public bool Visit(RootNode target, IExpression source)
         {
             if (target.ExpressionType != source.ExpressionType)
             {
                 return false;
             }
 
-            Root casted = source as Root;
+            RootNode casted = source as RootNode;
             if (casted is null)
             {
                 return false;

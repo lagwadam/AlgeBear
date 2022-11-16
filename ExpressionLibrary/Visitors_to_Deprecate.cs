@@ -8,7 +8,7 @@ namespace UtilityLibraries
         void Visit(Constant expression);
         void Visit(Container expression);
         void Visit(Polynomial expression);
-        void Visit(Root expression);
+        void Visit(RootNode expression);
         void Visit(Variable expression);
     }
     public class ExpressionVariablesVisitor : ISimpleExpressionVisitor
@@ -46,7 +46,7 @@ namespace UtilityLibraries
             expression.InnerExpression.Accept(this);
         }
 
-        public void Visit(Root expression)
+        public void Visit(RootNode expression)
         {
             expression.InnerExpression.Accept(this);
         }

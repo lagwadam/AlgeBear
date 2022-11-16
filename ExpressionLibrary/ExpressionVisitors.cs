@@ -11,7 +11,7 @@ namespace UtilityLibraries
         TReturn Visit(Polynomial expression);
         TReturn Visit(Power expression);
         TReturn Visit(Product expression);
-        TReturn Visit(Root expression);
+        TReturn Visit(RootNode expression);
         TReturn Visit(Sum expression);
         TReturn Visit(Variable expression);
     }
@@ -86,7 +86,7 @@ namespace UtilityLibraries
             return expression.Accept(this);
         }
 
-        public double Visit(Root expression)
+        public double Visit(RootNode expression)
         {
             return expression.Accept(this);
         }

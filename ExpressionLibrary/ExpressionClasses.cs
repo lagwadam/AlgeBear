@@ -11,7 +11,7 @@ namespace UtilityLibraries
         Power,
         Product,
         Quotient,
-        Root,
+        RootNode,
         Sum,
         Variable,
     }
@@ -173,7 +173,7 @@ namespace UtilityLibraries
         public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
-    public class Root : IContainer
+    public class RootNode : IContainer
     {
         public IExpression Parent
         {
@@ -181,15 +181,15 @@ namespace UtilityLibraries
             set => throw new NotImplementedException("Root expressions cannot have a parent.");
         }
         public IExpression InnerExpression { get; set; }
-        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Root;
-        public Root(IExpression expression)
+        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.RootNode;
+        public RootNode(IExpression expression)
         {
             InnerExpression = expression;
         }
         public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
         public virtual T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
-        public override string ToString() { return $"({InnerExpression.ToString()})"; }
+        public override string ToString() { return $"{InnerExpression.ToString()}"; }
     }
 
     public class Sum : BinaryOperation
