@@ -31,8 +31,12 @@ public class ExpressionTreeVisitorTests
 
         var expression = new Sum(new Constant(2.5), new Constant(3));
 
-        bool valid = expression.Accept(visitor);
+        Debug.WriteLine(expression);
 
-        // Assert.AreEqual(9.5, sum, "Alpha should be a variable, and it should be the only one.");
+        IExpression result = visitor.Visit(expression);
+
+        Debug.WriteLine(result);
+
+        Assert.AreEqual("5.5", result.ToString(), "The sum of two constant expressions should be 1 constant having the numerical sum.");
     }
 }

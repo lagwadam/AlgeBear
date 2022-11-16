@@ -18,8 +18,8 @@ namespace UtilityLibraries
 
     public abstract class BinaryOperation : IBinaryOperation
     {
-        public IExpression Left { get; private set; }
-        public IExpression Right { get; private set; }
+        public IExpression Left { get; set; }
+        public IExpression Right { get; set; }
         public abstract ExpressionTypeEnum ExpressionType { get; }
         public abstract string Operation { get; }
         public IExpression Parent { get; set; }
@@ -46,7 +46,7 @@ namespace UtilityLibraries
 
     public class Constant : IPrimative
     {
-        public double Value { get; private set; }
+        public double Value { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Constant;
         public IExpression Parent { get; set; }
         // Constructor
@@ -63,7 +63,7 @@ namespace UtilityLibraries
     public class Container : IContainer
     {
         public IExpression Parent { get; set; }
-        public IExpression InnerExpression { get; private set; }
+        public IExpression InnerExpression { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Container;
         public Container(IExpression expression)
         {
@@ -180,7 +180,7 @@ namespace UtilityLibraries
             get => throw new NotImplementedException("Root expressions do not have a parent.");
             set => throw new NotImplementedException("Root expressions cannot have a parent.");
         }
-        public IExpression InnerExpression { get; private set; }
+        public IExpression InnerExpression { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Root;
         public Root(IExpression expression)
         {
@@ -203,7 +203,7 @@ namespace UtilityLibraries
 
     public class Variable : IPrimative
     {
-        public string Symbol { get; private set; }
+        public string Symbol { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Variable;
         public IExpression Parent { get; set; }
         public Variable(string symbol)

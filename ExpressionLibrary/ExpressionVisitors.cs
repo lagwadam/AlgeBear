@@ -23,44 +23,44 @@ namespace UtilityLibraries
         {
             TransformationMap =  transformationMap;
         }
-        public double Visit(Constant target)
+        public double Visit(Constant expression)
         {
-            return target.Value; 
+            return expression.Value; 
         }
 
-        public double Visit(Variable target)
+        public double Visit(Variable expression)
         {
-            if(!TransformationMap.ContainsKey(target.Symbol))
+            if(!TransformationMap.ContainsKey(expression.Symbol))
             {
-                throw new InvalidDataException("Cannot evalute {target.Symbol}. Value not specified in TransformationMap");
+                throw new InvalidDataException("Cannot evalute {expression.Symbol}. Value not specified in TransformationMap");
             }
 
-            return TransformationMap[target.Symbol];
+            return TransformationMap[expression.Symbol];
         }
 
-        public double Visit(Sum target)
+        public double Visit(Sum expression)
         {
-            return target.Left.Accept(this) + target.Right.Accept(this);
+            return expression.Left.Accept(this) + expression.Right.Accept(this);
         }
 
-        public double Visit(Product target)
+        public double Visit(Product expression)
         {
-            return target.Left.Accept(this) * target.Right.Accept(this);
+            return expression.Left.Accept(this) * expression.Right.Accept(this);
         }
 
-        public double Visit(Difference target)
+        public double Visit(Difference expression)
         {
-            return target.Left.Accept(this) - target.Right.Accept(this);
+            return expression.Left.Accept(this) - expression.Right.Accept(this);
         }
         
-        public double Visit(Quotient target)
+        public double Visit(Quotient expression)
         {
-            var denominator = target.Right.Accept(this);
+            var denominator = expression.Right.Accept(this);
             if (denominator == 0)
             {
-                throw new DivideByZeroException($"Cannot Divide by zero! Expression: {target.Right.ToString()}");
+                throw new DivideByZeroException($"Cannot Divide by zero! Expression: {expression.Right.ToString()}");
             }
-            return target.Left.Accept(this) / target.Right.Accept(this);
+            return expression.Left.Accept(this) / expression.Right.Accept(this);
         }
 
         public double Visit(Power power)
@@ -76,11 +76,6 @@ namespace UtilityLibraries
             return Math.Pow(radix, exponent);
         }
 
-        // public double Visit(BinaryOperation target)
-        // {
-        //     throw new NotImplementedException("Binary Operation Accept is abstract, so it should be handled in the subclasses.");
-        // }
-
         public double Visit(Container container)
         {
             return container.Accept(this);
@@ -92,76 +87,6 @@ namespace UtilityLibraries
         }
 
         public double Visit(Root expression)
-        {
-            return expression.Accept(this);
-        }
-    }
-
-    public class SimplificationVisitor: IExpressionTreeVisitor<Boolean>
-    {
-        public SimplificationVisitor()
-        {
-        }
-
-        public bool Visit(Constant target)
-        {
-            return true; 
-        }
-
-        public bool Visit(Variable target)
-        {
-            return true;
-        }
-
-        public bool Visit(Sum target)
-        {
-            var leftConstant = target.Left as Constant;
-            var rightConstant = target.Right as Constant;
-            if(leftConstant is not null && rightConstant is not null)
-            {
-                var expression = new Constant(leftConstant.Value + rightConstant.Value);
-            }
-            return target.Left.Accept(this) && target.Right.Accept(this);
-        }
-
-        public bool Visit(Product target)
-        {
-            return true;
-        }
-
-        public bool Visit(Difference target)
-        {
-            return true;
-        }
-        
-        public bool Visit(Quotient target)
-        {
-            return target.Accept(this);
-        }
-
-        public bool Visit(Power power)
-        {
-            return power.Accept(this);
-        }
-
-        // TODO: Remove because BinaryOperation is abstract
-        // public bool Visit(BinaryOperation target)
-        // {
-        //     throw new NotImplementedException("Binary Operation Accept is abstract, so it should be handled in the subclasses.");
-        // }
-
-        public bool Visit(Container container)
-        {
-            return container.Accept(this);
-        }
-
-        public bool Visit(Polynomial expression)
-        {
-            // return expression.Accept(this);
-            return expression.Accept(this);
-        }
-
-        public bool Visit(Root expression)
         {
             return expression.Accept(this);
         }
