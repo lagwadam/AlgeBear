@@ -38,7 +38,7 @@ public class DifferentiationVisitorTests
         // simplifier.Visit(root);
         Debug.WriteLine(root);
 
-        Assert.AreEqual("4x", root.ToString(), "Derivative should be 1 + 2x");
+        Assert.AreEqual("4x", root.ToString(), "Derivative of (2 + 2x^2) should be 4x");
     }
 
     [TestMethod]
@@ -74,8 +74,6 @@ public class DifferentiationVisitorTests
         Debug.WriteLine(root);
         new DifferentiationVisitor().Visit(root);
 
-        // var simplifier = new SimplificationVisitor();
-        // simplifier.Visit(root);
         Debug.WriteLine(root);
 
         Assert.AreEqual("7 + 12x", root.ToString(), "Derivative should be 7 + 12x");

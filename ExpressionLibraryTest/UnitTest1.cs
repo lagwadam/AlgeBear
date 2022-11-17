@@ -42,7 +42,7 @@ public class UnitTest1
         string?[] words = { string.Empty, null };
         foreach (var word in words)
         {
-            bool result = ExpressionLibrary.StartsWithUpper(word);
+            bool result = Util.StartsWithUpper(word);
             Assert.IsTrue(true);
             Assert.IsFalse(result,
                    string.Format("Expected for '{0}': false; Actual: {1}",

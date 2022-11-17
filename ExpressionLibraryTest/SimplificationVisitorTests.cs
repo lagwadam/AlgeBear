@@ -110,7 +110,7 @@ public class SimplificationVisitorTests
         new SimplificationVisitor().Visit(root);
 
         Debug.WriteLine(root.ToString());
-        Assert.AreEqual("3x + 1x^3", root.ToString(), "Expanded coeffs should be {0, 1, 0, 3}"); 
+        Assert.AreEqual("3x + 1x^3", root.ToString(), "Expanded coeffs should be {0, 3, 0, 1}"); 
     }
 
     [TestMethod]

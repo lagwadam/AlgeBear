@@ -147,6 +147,11 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this, source);
         }
+        public override string ToString()
+        {
+            return $"({Util.FormatParens(Left)}{Operation}{Util.FormatParens(Right)})";
+        }
+
     }
 
     public class Product : BinaryOperation

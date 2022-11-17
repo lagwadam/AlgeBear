@@ -8,7 +8,7 @@ namespace ExpressionLibraryTests;
 public class ExpressionTest
 {
     [TestMethod]
-    public void ConstantTest()
+    public void Constant_Test()
     {
         var constant = new Constant(3);
 
@@ -17,7 +17,7 @@ public class ExpressionTest
     }
     
     [TestMethod]
-    public void SumTest()
+    public void Sum_Test()
     {
         var constant = new Constant(2.5);
         var innerSum = new Sum(new Variable("α"), new Constant(3.5));
@@ -29,7 +29,7 @@ public class ExpressionTest
     }
 
     [TestMethod]
-    public void ProductTest()
+    public void Product_Test()
     {
         var constant = new Constant(2.5);
         var variable = new Variable("α");
@@ -40,7 +40,7 @@ public class ExpressionTest
     }
 
     [TestMethod]
-    public void SumAndProductTest()
+    public void SumAndProduct_Test()
     {
         var constant1 = new Constant(2);
         var constant2 = new Constant(11);
@@ -53,7 +53,7 @@ public class ExpressionTest
     }
 
     [TestMethod]
-    public void PrimativePowerTest()
+    public void PrimativePower_Test()
     {
         var x = new Variable("x");
         var c = new Constant(3);
@@ -65,7 +65,7 @@ public class ExpressionTest
     }
 
     [TestMethod]
-    public void CompositePowerTest()
+    public void CompositePower_Test()
     {
         var x = new Variable("x");        
         var c = new Constant(3);
@@ -75,16 +75,57 @@ public class ExpressionTest
         var power = new Power(sum, product);
 
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("((x + 3)^(3*x))", power.ToString());
+        Assert.AreEqual("(((x + 3))^((3*x)))", power.ToString());
     }
 
     [TestMethod]
-    public void PowerSumAndProductTest()
+    public void PowerSumAndProduct_Test()
     {
         var sum = new Sum(new Constant(11), new Variable("α"));
         var product = new Product(new Constant(2), sum);
         var power = new Power(product, new Constant(3));
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("((2*((11 + α)))^3)", power.ToString());
+        Assert.AreEqual("(((2*((11 + α))))^3)", power.ToString());
     }
+
+    [TestMethod]
+    public void Quotient_Test()
+    {
+        var quotient = new Quotient(new Constant(11), new Variable("x"));
+        
+        Debug.WriteLine(quotient.ToString());
+
+        Assert.AreEqual("(11 / x)", quotient.ToString());
+    }
+    
+    [TestMethod]
+    public void RationalFunction_Test()
+    {
+        var numeratorCoeffs = new Double[] {1, 2};
+        var denominatorCoeffs = new Double[] {2, -1};
+        var numerator = new Polynomial(numeratorCoeffs, new Variable("x"));
+        var denominator = new Polynomial(denominatorCoeffs, new Variable("x"));
+        var quotient = new Quotient(numerator, denominator);
+        
+        Debug.WriteLine(quotient.ToString());
+
+        Assert.AreEqual("(1 + 2x / 2 + -1x)", quotient.ToString());
+    }
+
+    [TestMethod]
+    public void PowerOfPOwerTestFunction_Test()
+    {
+        var poly1 = new Polynomial(new Double[] {1, 1}, new Variable("x"));
+        var poly2 = new Polynomial(new Double[] {1, 1}, new Variable("x"));
+        var poly3 = new Polynomial(new Double[] {1, 1}, new Variable("x"));
+
+        var power2 = new Power(poly2, poly3);
+        var power1 = new Power(poly1, power2);
+
+        Debug.WriteLine($"power2: {power2}");
+        Debug.WriteLine($"power1: {power1}");
+
+        Assert.AreEqual("((1 + 1x)^(((1 + 1x)^(1 + 1x))))", power1.ToString());
+    } 
+
 }
