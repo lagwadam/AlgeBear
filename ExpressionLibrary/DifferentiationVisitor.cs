@@ -38,14 +38,20 @@ namespace UtilityLibraries
             var polynomialDerivative = DifferentiatePolynomialProduct(expression);
             if (polynomialDerivative is not null)
             {
-                return polynomialDerivative;
+                var casted = polynomialDerivative as Polynomial;
+                if (casted is not null)
+                {
+                    return _simplifier.Visit(casted);    
+                }
+                return polynomialDerivative.Accept(_simplifier);
             } 
 
             var dFirst = expression.Left.Accept(this);
             var dSecond = expression.Right.Accept(this);
 
             var derivative = new Sum(new Product(expression.Left, dSecond), new Product(expression.Right, dFirst));
-            _simplifier.Visit(derivative);
+            _simplifier.Visit(derivative); // Expands product
+            _simplifier.Visit(derivative); // Adds polynomials
 
             return derivative;
         }
@@ -148,11 +154,10 @@ namespace UtilityLibraries
             }
 
             var newPoly = new Polynomial(newArray, poly.InnerExpression);
-
             if (poly.InnerExpression.ExpressionType == ExpressionTypeEnum.Variable)
             {
                 // Don't need to apply chain rule, so just return
-                return newPoly;
+                return _simplifier.Visit(newPoly);
             }
 
             // Apply chain rule

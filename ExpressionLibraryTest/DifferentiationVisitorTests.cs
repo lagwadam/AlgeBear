@@ -74,8 +74,8 @@ public class DifferentiationVisitorTests
         Debug.WriteLine(root);
         new DifferentiationVisitor().Visit(root);
 
-        var simplifier = new SimplificationVisitor();
-        simplifier.Visit(root);
+        // var simplifier = new SimplificationVisitor();
+        // simplifier.Visit(root);
         Debug.WriteLine(root);
 
         Assert.AreEqual("7 + 12x", root.ToString(), "Derivative should be 7 + 12x");
