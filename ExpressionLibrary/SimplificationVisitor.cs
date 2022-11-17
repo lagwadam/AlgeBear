@@ -58,22 +58,6 @@ namespace UtilityLibraries
             return expression;
         }
 
-        public IExpression Visit(Difference expression)
-        {
-            var leftConstant = expression.Left as Constant;
-            var rightConstant = expression.Right as Constant;
-
-            if (leftConstant is not null && rightConstant is not null)
-            {
-                return new Constant(leftConstant.Value - rightConstant.Value);
-            }
-
-            expression.Left = expression.Left.Accept(this);
-            expression.Right = expression.Right.Accept(this);
-
-            return expression;
-        }
-
         public IExpression Visit(Quotient expression)
         {
             IExpression simplified = expression;

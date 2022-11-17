@@ -11,7 +11,7 @@ namespace UtilityLibraries
         }
         public DifferentiationVisitor()
         {
-            // TODO: Refactor to use Constructor with Dependency ⚡ Injection 
+            // TODO: Refactor to use Constructor with Dependency Injection 
             _simplifier = new SimplificationVisitor();
         }
         public IExpression Visit(Constant expression)
@@ -75,22 +75,6 @@ namespace UtilityLibraries
             _simplifier.Visit(derivative);
 
             return derivative;
-        }
-
-        public IExpression Visit(Difference expression)
-        {
-            var leftConstant = expression.Left as Constant;
-            var rightConstant = expression.Right as Constant;
-
-            if (leftConstant is not null && rightConstant is not null)
-            {
-                return new Constant(leftConstant.Value - rightConstant.Value);
-            }
-
-            expression.Left = expression.Left.Accept(this);
-            expression.Right = expression.Right.Accept(this);
-
-            return expression;
         }
 
         public IExpression Visit(Quotient expression)

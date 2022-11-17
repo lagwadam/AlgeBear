@@ -6,7 +6,6 @@ namespace UtilityLibraries
     {
         Constant,
         Container,
-        Difference,
         Polynomial,
         Power,
         Product,
@@ -29,12 +28,8 @@ namespace UtilityLibraries
             Left = left;
             Right = right;
         }
-        public void Accept(ISimpleExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
         public abstract T Accept<T>(IExpressionTreeVisitor<T> visitor);
-        public virtual T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source)
+        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source)
         {
             return visitor.Visit(this, source);
         }
@@ -55,10 +50,9 @@ namespace UtilityLibraries
         {
             Value = value;
         }
-        public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public override string ToString() { return Value.ToString(); }
         public T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression expression) { return visitor.Visit(this, expression); }
+        public T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression expression) { return visitor.Visit(this, expression); }
     }
 
     public class Container : IContainer
@@ -70,19 +64,9 @@ namespace UtilityLibraries
         {
             InnerExpression = expression;
         }
-        public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public virtual T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
         public override string ToString() { return $"({InnerExpression.ToString()})"; }
-    }
-
-    public class Difference : BinaryOperation
-    {
-        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Difference;
-        public override string Operation => " - ";
-        public Difference(IExpression left, IExpression right) : base(left, right) { }
-        public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Polynomial : IComposite
@@ -96,9 +80,8 @@ namespace UtilityLibraries
             Coefficients = coefficients;
             InnerExpression = innerExpression;
         }
-        public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public virtual T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
         public override string ToString()
         {
             if (Coefficients is null || Coefficients.Length == 0)
@@ -146,7 +129,7 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this);
         }
-        public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source)
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source)
         {
             return visitor.Visit(this, source);
         }
@@ -161,7 +144,7 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this);
         }
-        public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Quotient : BinaryOperation
@@ -173,7 +156,7 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this);
         }
-        public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class RootNode : IContainer
@@ -189,9 +172,8 @@ namespace UtilityLibraries
         {
             InnerExpression = expression;
         }
-        public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public virtual T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
         public override string ToString() { return $"{InnerExpression.ToString()}"; }
     }
 
@@ -201,7 +183,7 @@ namespace UtilityLibraries
         public override string Operation => " + ";
         public Sum(IExpression left, IExpression right) : base(left, right) { }
         public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public class Variable : IPrimative
@@ -214,8 +196,7 @@ namespace UtilityLibraries
             Symbol = symbol;
         }
         public override string ToString() { return Symbol; }
-        public void Accept(ISimpleExpressionVisitor visitor) { visitor.Visit(this); }
         public T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression expression) { return visitor.Visit(this, expression); }
+        public T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression expression) { return visitor.Visit(this, expression); }
     }
 }

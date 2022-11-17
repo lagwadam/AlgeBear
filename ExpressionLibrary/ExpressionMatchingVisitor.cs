@@ -2,20 +2,10 @@ using UtilityLibraries;
 
 namespace UtilityLibraries
 {
-    public interface ITreeComparisonVisitor<TReturn>
-    {
-        TReturn Visit(Constant expression, IExpression source);
-        TReturn Visit(Container expression, IExpression source);
-        TReturn Visit(BinaryOperation expression, IExpression source);
-        TReturn Visit(Polynomial expression, IExpression source);
-        TReturn Visit(RootNode expression, IExpression source);
-        TReturn Visit(Variable expression, IExpression source);
-    }
-
-    public class EquivalencyVisitor: ITreeComparisonVisitor<Boolean>
+    public class ExpressionMatchingVisitor: IExpressionMatchingVisitor<Boolean>
     {
         public IList<string> Transformations { get; private set; }
-        public EquivalencyVisitor()
+        public ExpressionMatchingVisitor()
         {
             Transformations = new List<string>();
         }

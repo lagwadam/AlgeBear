@@ -2,20 +2,6 @@ using UtilityLibraries;
 
 namespace UtilityLibraries
 {
-    public interface IExpressionTreeVisitor<TReturn>
-    {
-        TReturn Visit(Constant expression);
-        TReturn Visit(Container expression);
-        TReturn Visit(Difference expression);
-        TReturn Visit(Quotient expression);
-        TReturn Visit(Polynomial expression);
-        TReturn Visit(Power expression);
-        TReturn Visit(Product expression);
-        TReturn Visit(RootNode expression);
-        TReturn Visit(Sum expression);
-        TReturn Visit(Variable expression);
-    }
-
     public class EvaluationVisitor: IExpressionTreeVisitor<Double>
     {
         public IDictionary<string, double> TransformationMap { get; private set; } 
@@ -48,11 +34,6 @@ namespace UtilityLibraries
             return expression.Left.Accept(this) * expression.Right.Accept(this);
         }
 
-        public double Visit(Difference expression)
-        {
-            return expression.Left.Accept(this) - expression.Right.Accept(this);
-        }
-        
         public double Visit(Quotient expression)
         {
             var denominator = expression.Right.Accept(this);

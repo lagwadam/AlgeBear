@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace ExpressionLibraryTest;
 
 [TestClass]
-public class ExpressionTreeVisitorTests
+public class EvaluationVisitorTests
 {
     [TestMethod]
     public void ExpressionTreeVisitorSumTest()
