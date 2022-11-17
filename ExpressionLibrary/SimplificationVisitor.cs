@@ -124,7 +124,7 @@ namespace UtilityLibraries
         {
             expression.InnerExpression = expression.InnerExpression.Accept(this);
 
-            return expression.Accept(this);
+            return expression;
         }
 
         public IExpression Visit(RootNode expression)

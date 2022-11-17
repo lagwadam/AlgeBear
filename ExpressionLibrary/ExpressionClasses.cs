@@ -159,6 +159,21 @@ namespace UtilityLibraries
             return visitor.Visit(this);
         }
         public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override string ToString()
+        {
+            var left = Left.ToString();
+            if (Left.ExpressionType != ExpressionTypeEnum.Constant && Left.ExpressionType != ExpressionTypeEnum.Variable) 
+            {
+                left = $"({left})";
+            }
+
+            var right = Right.ToString();
+            if (Right.ExpressionType != ExpressionTypeEnum.Constant && Right.ExpressionType != ExpressionTypeEnum.Variable) 
+            {
+                right = $"({right})";
+            }
+            return $"({left}{Operation}{right})";
+        }
     }
 
     public class Quotient : BinaryOperation

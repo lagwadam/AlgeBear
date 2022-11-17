@@ -49,7 +49,7 @@ public class ExpressionTest
         var product = new Product(constant1, sum);
 
         Debug.WriteLine(product.ToString());
-        Assert.AreEqual("(2*(11 + α))", product.ToString());
+        Assert.AreEqual("(2*((11 + α)))", product.ToString());
     }
 
     [TestMethod]
@@ -85,6 +85,6 @@ public class ExpressionTest
         var product = new Product(new Constant(2), sum);
         var power = new Power(product, new Constant(3));
         Debug.WriteLine(power.ToString());
-        Assert.AreEqual("((2*(11 + α))^3)", power.ToString());
+        Assert.AreEqual("((2*((11 + α)))^3)", power.ToString());
     }
 }
