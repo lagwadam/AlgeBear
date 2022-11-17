@@ -43,7 +43,7 @@ public class PolynomialExpressionTests
         Polynomial zero = new Polynomial(new Double[] {1, 3, 0, 7}, innerExpression);
         var result = zero.ToString();
         Debug.WriteLine($"result: {result}");
-        Debug.WriteLine($"expect: {"1 + 3((2*x) + 1) + 7((2*x) + 1)^3"}");
-        Assert.AreEqual("1 + 3((2*x) + 1) + 7((2*x) + 1)^3", result);
+        Debug.WriteLine($"expect: {"1 + 3(((2*x)) + 1) + 7(((2*x)) + 1)^3"}");
+        Assert.AreEqual("1 + 3(((2*x)) + 1) + 7(((2*x)) + 1)^3", result);
     }
 }

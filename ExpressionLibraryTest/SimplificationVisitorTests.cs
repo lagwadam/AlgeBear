@@ -110,7 +110,7 @@ public class SimplificationVisitorTests
         new SimplificationVisitor().Visit(root);
 
         Debug.WriteLine(root.ToString());
-        Assert.AreEqual("3x + 1x^3", root.ToString(), "Expanded coeffs should be {0, 3, 0, 1}"); 
+        Assert.AreEqual("3x + x^3", root.ToString(), "Expanded coeffs should be {0, 3, 0, 1}"); 
     }
 
     [TestMethod]
@@ -144,7 +144,7 @@ public class SimplificationVisitorTests
         new SimplificationVisitor().Visit(root);
         
         Debug.WriteLine(root.ToString());
-        Assert.AreEqual("-1 + 1x^2", root.ToString(), "Expanded coeffs should be {-6}");
+        Assert.AreEqual("-1 + x^2", root.ToString(), "Expanded coeffs should be {-6}");
     }
 
     [TestMethod]
@@ -161,7 +161,7 @@ public class SimplificationVisitorTests
         new SimplificationVisitor().Visit(root);
         
         Debug.WriteLine(root.ToString());
-        Assert.AreEqual("-1 + 2x^2 + 1x^3", root.ToString(), "Expanded coeffs should be {-1, 2, 1}");
+        Assert.AreEqual("-1 + 2x^2 + x^3", root.ToString(), "Expanded coeffs should be {-1, 2, 1}");
     }
 
     [TestMethod]
@@ -181,6 +181,6 @@ public class SimplificationVisitorTests
         new SimplificationVisitor().Visit(root);
 
         Debug.WriteLine(root.ToString());
-        Assert.AreEqual("-1 + 1x + 2x^3 + 1x^5", root.ToString(), "Expanded coeffs should be {-1, 1, 1, 1, 0, 0, 1}");
+        Assert.AreEqual("-1 + x + 2x^3 + x^5", root.ToString(), "Expanded coeffs should be {-1, 1, 1, 1, 0, 0, 1}");
     }
 }

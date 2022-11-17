@@ -34,8 +34,6 @@ public class DifferentiationVisitorTests
         Debug.WriteLine(root);
         new DifferentiationVisitor().Visit(root);
 
-        // var simplifier = new SimplificationVisitor();
-        // simplifier.Visit(root);
         Debug.WriteLine(root);
 
         Assert.AreEqual("4x", root.ToString(), "Derivative of (2 + 2x^2) should be 4x");
@@ -66,6 +64,24 @@ public class DifferentiationVisitorTests
         var visitor = new DifferentiationVisitor();
         // p(x) = (1 + 2x) * (2 + 3x) = 2 + 7x + 6x^2
         // d/dx = 3(1+2x) + 2 * (2 +3x) = 3 + 6x + 4 + 6x 
+        var leftPoly = new Polynomial(new Double[] {1, 2}, new Variable("x"));
+        var rightPoly = new Polynomial(new Double[] {2, 3}, new Variable("x"));
+
+        var root = new RootNode(new Product(leftPoly, rightPoly));
+
+        Debug.WriteLine(root);
+        new DifferentiationVisitor().Visit(root);
+
+        Debug.WriteLine(root);
+
+        Assert.AreEqual("7 + 12x", root.ToString(), "Derivative should be 7 + 12x");
+    }
+
+    [TestMethod]
+    public void DifferentiationVisitor_Exponentiation_Test()
+    {
+        var visitor = new DifferentiationVisitor();
+         
         var leftPoly = new Polynomial(new Double[] {1, 2}, new Variable("x"));
         var rightPoly = new Polynomial(new Double[] {2, 3}, new Variable("x"));
 

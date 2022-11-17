@@ -38,9 +38,10 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this, source);
         }
+        
         public override string ToString()
         {
-            return $"({Left.ToString()}{Operation}{Right.ToString()})";
+            return $"({Util.FormatParens(Left)}{Operation}{Util.FormatParens(Right)})";
         }
     }
 
@@ -107,6 +108,8 @@ namespace UtilityLibraries
 
             string inner = InnerExpression.ToString();
 
+
+            string coefficient = string.Empty;
             IList<string> results = new List<string>();
             for (int i = 0; i < Coefficients.Length; i++)
             {
@@ -123,11 +126,11 @@ namespace UtilityLibraries
 
                 if (i == 1)
                 {
-                    results.Add($"{Coefficients[1].ToString()}{inner}");
+                    results.Add($"{Util.FormatCoeff(Coefficients[i])}{inner}");
                     continue;
                 }
 
-                results.Add($"{Coefficients[i].ToString()}{inner}^{i}");
+                results.Add($"{Util.FormatCoeff(Coefficients[i])}{inner}^{i}");
             }
 
             return String.Join(" + ", results);
@@ -147,11 +150,6 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this, source);
         }
-        public override string ToString()
-        {
-            return $"({Util.FormatParens(Left)}{Operation}{Util.FormatParens(Right)})";
-        }
-
     }
 
     public class Product : BinaryOperation
@@ -164,21 +162,6 @@ namespace UtilityLibraries
             return visitor.Visit(this);
         }
         public override T Accept<T>(ITreeComparisonVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
-        public override string ToString()
-        {
-            var left = Left.ToString();
-            if (Left.ExpressionType != ExpressionTypeEnum.Constant && Left.ExpressionType != ExpressionTypeEnum.Variable) 
-            {
-                left = $"({left})";
-            }
-
-            var right = Right.ToString();
-            if (Right.ExpressionType != ExpressionTypeEnum.Constant && Right.ExpressionType != ExpressionTypeEnum.Variable) 
-            {
-                right = $"({right})";
-            }
-            return $"({left}{Operation}{right})";
-        }
     }
 
     public class Quotient : BinaryOperation

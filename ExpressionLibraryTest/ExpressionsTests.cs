@@ -25,7 +25,7 @@ public class ExpressionTest
         var sum = new Sum(constant, innerSum);   
 
         Debug.WriteLine($"Sum: {sum.ToString()}");     
-        Assert.AreEqual("(2.5 + (α + 3.5))", sum.ToString());
+        Assert.AreEqual("(2.5 + ((α + 3.5)))", sum.ToString());
     }
 
     [TestMethod]
@@ -109,11 +109,27 @@ public class ExpressionTest
         
         Debug.WriteLine(quotient.ToString());
 
-        Assert.AreEqual("(1 + 2x / 2 + -1x)", quotient.ToString());
+        Assert.AreEqual("((1 + 2x) / (2 + -1x))", quotient.ToString());
     }
 
     [TestMethod]
     public void PowerOfPOwerTestFunction_Test()
+    {
+        var poly1 = new Polynomial(new Double[] {0, 1}, new Variable("x"));
+        var poly2 = new Polynomial(new Double[] {0, 1}, new Variable("x"));
+        var poly3 = new Polynomial(new Double[] {0, 1}, new Variable("x"));
+
+        var power2 = new Power(poly2, poly3);
+        var power1 = new Power(poly1, power2);
+
+        Debug.WriteLine($"power2: {power2}");
+        Debug.WriteLine($"power1: {power1}");
+
+        Assert.AreEqual("((x)^(((x)^(x))))", power1.ToString());
+    } 
+
+    [TestMethod]
+    public void PowerOfPower_WithComposition_Test()
     {
         var poly1 = new Polynomial(new Double[] {1, 1}, new Variable("x"));
         var poly2 = new Polynomial(new Double[] {1, 1}, new Variable("x"));
@@ -125,7 +141,7 @@ public class ExpressionTest
         Debug.WriteLine($"power2: {power2}");
         Debug.WriteLine($"power1: {power1}");
 
-        Assert.AreEqual("((1 + 1x)^(((1 + 1x)^(1 + 1x))))", power1.ToString());
+        Assert.AreEqual("((1 + x)^(((1 + x)^(1 + x))))", power1.ToString());
     } 
 
 }

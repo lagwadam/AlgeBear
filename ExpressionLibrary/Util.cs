@@ -25,4 +25,14 @@ public static class Util
 
         return result;
     }
+
+    public static string FormatCoeff(Double coefficient)
+    { 
+        if (coefficient == 1)
+        {
+            return string.Empty;
+        }
+
+        return coefficient.ToString();
+    }
 }
