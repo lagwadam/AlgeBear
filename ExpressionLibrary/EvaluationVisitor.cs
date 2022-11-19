@@ -2,31 +2,50 @@ using UtilityLibraries;
 
 namespace UtilityLibraries
 {
-    public class EvaluationVisitor: IExpressionTreeVisitor<Double>
+    public class EvaluationVisitor : IExpressionTreeVisitor<Double>
     {
-        public IDictionary<string, double> TransformationMap { get; private set; } 
+        public IDictionary<string, double> TransformationMap { get; private set; }
         public EvaluationVisitor(IDictionary<string, double> transformationMap)
         {
-            TransformationMap =  transformationMap;
+            TransformationMap = transformationMap;
         }
         public double Visit(Constant expression)
         {
-            return expression.Value; 
+            return expression.Value;
         }
 
-        public double Visit(Variable expression)
+        public double Visit(Exp expression)
         {
-            if(!TransformationMap.ContainsKey(expression.Symbol))
+            return Math.Exp(expression.Argument.Accept(this));
+        }
+
+        public double Visit(ln expression)
+        {
+            return Math.Log(expression.Argument.Accept(this));
+        }
+
+        public double Visit(Polynomial expression)
+        {
+            double result = 0;
+            double innerValue = expression.InnerExpression.Accept(this);
+            for (int i = 0; i < expression.Coefficients.Length; i++)
             {
-                throw new InvalidDataException("Cannot evalute {expression.Symbol}. Value not specified in TransformationMap");
+                result += expression.Coefficients[i] * Math.Pow(innerValue, i);
+            }
+            return result;
+        }
+
+        public double Visit(Power power)
+        {
+            var radix = power.Left.Accept(this);
+            var exponent = power.Right.Accept(this);
+
+            if (exponent == 0)
+            {
+                return 1;
             }
 
-            return TransformationMap[expression.Symbol];
-        }
-
-        public double Visit(Sum expression)
-        {
-            return expression.Left.Accept(this) + expression.Right.Accept(this);
+            return Math.Pow(radix, exponent);
         }
 
         public double Visit(Product expression)
@@ -44,32 +63,23 @@ namespace UtilityLibraries
             return expression.Left.Accept(this) / expression.Right.Accept(this);
         }
 
-        public double Visit(Power power)
-        {
-            var radix = power.Left.Accept(this);
-            var exponent = power.Right.Accept(this);
-
-            if (exponent == 0) 
-            {
-                return 1;
-            }
-
-            return Math.Pow(radix, exponent);
-        }
-
-        public double Visit(Container container)
-        {
-            return container.Accept(this);
-        }
-
-        public double Visit(Polynomial expression)
-        {
-            return expression.Accept(this);
-        }
-
         public double Visit(RootNode expression)
         {
             return expression.Accept(this);
+        }
+
+        public double Visit(Variable expression)
+        {
+            if (!TransformationMap.ContainsKey(expression.Symbol))
+            {
+                throw new InvalidDataException("Cannot evalute {expression.Symbol}. Value not specified in TransformationMap");
+            }
+
+            return TransformationMap[expression.Symbol];
+        }
+        public double Visit(Sum expression)
+        {
+            return expression.Left.Accept(this) + expression.Right.Accept(this);
         }
     }
 }

@@ -5,13 +5,19 @@ namespace UtilityLibraries
     public enum ExpressionTypeEnum
     {
         Constant,
-        Container,
+        cos,
+        e,
+        Exp,
+        Function,
+        ln, // assumes base e
         Polynomial,
         Power,
         Product,
         Quotient,
         RootNode,
+        sin,
         Sum,
+        Tan,
         Variable,
     }
 
@@ -21,7 +27,6 @@ namespace UtilityLibraries
         public IExpression Right { get; set; }
         public abstract ExpressionTypeEnum ExpressionType { get; }
         public abstract string Operation { get; }
-        public IExpression Parent { get; set; }
 
         public BinaryOperation(IExpression left, IExpression right)
         {
@@ -33,7 +38,7 @@ namespace UtilityLibraries
         {
             return visitor.Visit(this, source);
         }
-        
+
         public override string ToString()
         {
             return $"({Util.FormatParens(Left)}{Operation}{Util.FormatParens(Right)})";
@@ -44,7 +49,6 @@ namespace UtilityLibraries
     {
         public double Value { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Constant;
-        public IExpression Parent { get; set; }
         // Constructor
         public Constant(double value)
         {
@@ -55,23 +59,8 @@ namespace UtilityLibraries
         public T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression expression) { return visitor.Visit(this, expression); }
     }
 
-    public class Container : IContainer
-    {
-        public IExpression Parent { get; set; }
-        public IExpression InnerExpression { get; set; }
-        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Container;
-        public Container(IExpression expression)
-        {
-            InnerExpression = expression;
-        }
-        public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
-        public override string ToString() { return $"({InnerExpression.ToString()})"; }
-    }
-
     public class Polynomial : IComposite
     {
-        public IExpression Parent { get; set; }
         public Double[] Coefficients { get; set; }
         public IExpression InnerExpression { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Polynomial;
@@ -88,12 +77,13 @@ namespace UtilityLibraries
             {
                 return string.Empty;
             }
-
             string inner = InnerExpression.ToString();
-
-
             string coefficient = string.Empty;
             IList<string> results = new List<string>();
+            if (Coefficients.Length == 1)
+            {
+                return Coefficients[0].ToString();
+            }
             for (int i = 0; i < Coefficients.Length; i++)
             {
                 if (Coefficients[i] == 0)
@@ -116,8 +106,53 @@ namespace UtilityLibraries
                 results.Add($"{Util.FormatCoeff(Coefficients[i])}{inner}^{i}");
             }
 
-            return String.Join(" + ", results);
+            var result = String.Join(" + ", results);
+            return result.Replace("+ -", "- ");
+
         }
+    }
+
+    public class Exp : IComposite
+    {
+        public IExpression Argument { get; set; }
+        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Exp;
+        public Exp(IExpression argument)
+        {
+            Argument = argument;
+        }
+        public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
+        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+        public override string ToString() { return $"e^({Argument.ToString()})"; }
+    }
+
+    public abstract class Function : IFunction
+    {
+        public abstract ExpressionTypeEnum ExpressionType { get; }
+        public abstract string Name { get; }
+        public IExpression Argument { get; set; }
+        public abstract ExpressionTypeEnum InverseFunctionType { get; }
+        public Function(IExpression argument)
+        {
+            Argument = argument;
+        }
+        public abstract T Accept<T>(IExpressionTreeVisitor<T> visitor);
+        public abstract T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source);
+
+        public override abstract string ToString();
+    }
+
+    public class ln : Function
+    {
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.ln;
+        public override string Name => "ln";
+
+        public override ExpressionTypeEnum InverseFunctionType => ExpressionTypeEnum.e;
+
+        public ln(IExpression argument) : base(argument) { }
+        public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+
+        public override string ToString() { return $"ln({Argument.ToString()})"; }
     }
 
     public class Power : BinaryOperation
@@ -159,13 +194,8 @@ namespace UtilityLibraries
         public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
-    public class RootNode : IContainer
+    public class RootNode : IExpression
     {
-        public IExpression Parent
-        {
-            get => throw new NotImplementedException("Root expressions do not have a parent.");
-            set => throw new NotImplementedException("Root expressions cannot have a parent.");
-        }
         public IExpression InnerExpression { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.RootNode;
         public RootNode(IExpression expression)
@@ -190,7 +220,6 @@ namespace UtilityLibraries
     {
         public string Symbol { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Variable;
-        public IExpression Parent { get; set; }
         public Variable(string symbol)
         {
             Symbol = symbol;

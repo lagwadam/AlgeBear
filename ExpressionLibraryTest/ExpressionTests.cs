@@ -109,7 +109,7 @@ public class ExpressionTest
         
         Debug.WriteLine(quotient.ToString());
 
-        Assert.AreEqual("((1 + 2x) / (2 + -1x))", quotient.ToString());
+        Assert.AreEqual("((1 + 2x) / (2 - x))", quotient.ToString());
     }
 
     [TestMethod]
@@ -150,7 +150,7 @@ public class ExpressionTest
         Polynomial zero = new Polynomial(new Double[] {0}, new Variable("x"));
         var result = zero.ToString();
         Debug.WriteLine(result);
-        Assert.AreEqual(string.Empty, result);
+        Assert.AreEqual("0", result);
     }
 
     [TestMethod]

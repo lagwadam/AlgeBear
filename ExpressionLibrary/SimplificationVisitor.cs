@@ -13,6 +13,48 @@ namespace UtilityLibraries
             return expression;
         }
 
+        public IExpression Visit(Exp expression)
+        {
+            var constant = expression.Argument as Constant;
+
+            if (constant is not null)
+            {
+                return new Constant(Math.Exp(constant.Value));
+            }
+
+            expression.Argument = expression.Argument.Accept(this);
+
+            return expression;
+        }
+
+        public IExpression Visit(Function expression)
+        {
+            var constant = expression.Argument as Constant;
+
+            if (constant is not null)
+            {
+                return new Constant(Math.Exp(constant.Value));
+            }
+
+            expression.Argument = expression.Argument.Accept(this);
+
+            return expression;
+        }
+
+        public IExpression Visit(ln expression)
+        {
+            var constant = expression.Argument as Constant;
+
+            if (constant is not null)
+            {
+                return new Constant(Math.Exp(constant.Value));
+            }
+
+            expression.Argument = expression.Argument.Accept(this);
+
+            return expression;
+        }
+
         public IExpression Visit(Variable expression)
         {
             return expression;
@@ -93,13 +135,6 @@ namespace UtilityLibraries
 
             expression.Left = expression.Left.Accept(this);
             expression.Right = expression.Right.Accept(this);
-
-            return expression;
-        }
-
-        public IExpression Visit(Container expression)
-        {
-            expression.InnerExpression = expression.InnerExpression.Accept(this);
 
             return expression;
         }

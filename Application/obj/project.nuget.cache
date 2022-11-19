@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kyCUHMuGoIiMa2dupt7EzcpIUPq7H13S7u35YdpPjh0XsruA0ovWwnWDwUQnM7N4KWf2RH5EwGTUmLTQA96xDg==",
+  "dgSpecHash": "bdMOqJt6VKrNa9zkxwNOx7X+1EEmUPTC6iKW1m/JWWVyte+au33ib0rHtViCvsYb9bVQgSCK8DLXI++1oe3D4w==",
   "success": true,
   "projectFilePath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\Application\\Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\lagwa\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

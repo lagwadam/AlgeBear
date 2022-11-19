@@ -94,4 +94,24 @@ public class DifferentiationVisitorTests
 
         Assert.AreEqual("7 + 12x", root.ToString(), "Derivative should be 7 + 12x");
     }
+
+    [TestMethod]
+    public void DifferentiationVisitor_ln_Test()
+    {
+        var visitor = new DifferentiationVisitor();
+         
+        var poly = new Polynomial(new Double[] {1, 2, 3}, new Variable("x"));
+        var polyExpected = new Polynomial(new Double[] {1, 2, 3}, new Variable("x"));
+
+        var root = new RootNode(new ln(poly));
+
+        Debug.WriteLine(root);
+        Debug.WriteLine(string.Empty);
+
+        new DifferentiationVisitor().Visit(root);
+
+        Debug.WriteLine($"d/dx {new RootNode(new ln(poly)).ToString()} = {root}");
+
+        Assert.AreEqual("((2 + 6x) / (1 + 2x + 3x^2))", root.ToString(), "Derivative should be a rational function.");
+    }
 }

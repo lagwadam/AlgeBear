@@ -13,14 +13,8 @@ namespace UtilityLibraries
     public interface IExpression
     {
         ExpressionTypeEnum ExpressionType { get; }
-        IExpression Parent { get; set; }
         T Accept<T>(IExpressionTreeVisitor<T> visitor);
         T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression expression);
-    }
-
-    public interface IContainer : IExpression
-    {
-        IExpression InnerExpression { get; }
     }
 
     public interface IBinaryOperation : IComposite
@@ -28,5 +22,12 @@ namespace UtilityLibraries
         IExpression Left { get; }
         IExpression Right { get; }
         string Operation { get; }
+    }
+
+    public interface IFunction : IComposite
+    {
+        string Name { get; }
+        IExpression Argument { get; }
+        ExpressionTypeEnum InverseFunctionType { get; }
     }
 }

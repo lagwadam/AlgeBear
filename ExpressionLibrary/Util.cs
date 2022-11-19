@@ -33,6 +33,11 @@ public static class Util
             return string.Empty;
         }
 
+        if (coefficient == -1)
+        {
+            return "-";
+        }
+
         return coefficient.ToString();
     }
 }

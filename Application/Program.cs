@@ -1,37 +1,109 @@
-﻿using UtilityLibraries;
+﻿using Application;
+using UtilityLibraries;
 
 class Program
 {
+    public static Dictionary<int, string> Instructions => new Dictionary<int, string>()
+    {
+        // {1, "<1> 1st instruction"},
+        // {2, "<2> 2nd instruction"},
+        // {3, "<3> 3rd instruction"},
+        {4, "Enter polynomial coefficients: {1, 2, 3} => {1 + 2x + 2x^2}"},
+        {5, "Enter a polynomial product: {1, 2}*{-1, 2, 1} => (1 + 2x) * (1 + 2x + 2x^2) "},
+        {6, "Enter a sum of polynomials: Ex, {-1, -1} + {2, 1, 1} => (-1 + -x) + (2 + x + x^2) "}
+    };
+
     static void Main(string[] args)
     {
-        // TODO: Implement for Algebra App
-        int row = 0;
-
+        Console.WriteLine("");
+        PrintInstructions($"Welcome to the (mini-cas) Algebra App.");
         do
         {
-            if (row == 0 || row >= 25)
-                ResetConsole();
-
             string? input = Console.ReadLine();
-            if (string.IsNullOrEmpty(input)) break;
-            Console.WriteLine($"Input: {input}");
-            Console.WriteLine("Chose ");
-            Console.WriteLine();
-            row += 4;
-        } while (true);
-        return;
-
-        // Declare a ResetConsole local method
-        void ResetConsole()
-        {
-            if (row > 0)
+            if (string.IsNullOrEmpty(input))
             {
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
+                if (AreYouSure())
+                {
+                    break;
+                }
             }
-            Console.Clear();
-            Console.WriteLine($"{Environment.NewLine}Press <Enter> only to exit; otherwise, enter a string and press <Enter>:{Environment.NewLine}");
-            row = 3;
+            else if (input.ToLower() == "h")
+            {
+                PrintHelp();
+            }
+            else
+            {
+                try
+                {
+                    HandleCommand(input); 
+                }
+                catch (Exception ex)
+                {
+                    Printer.PrintNewLine("Oops!");
+                    Printer.PrintNewLine(ex.Message);
+                }
+                
+                ResetConsole();
+            }
         }
+        while (true);
+
+        return;
+    }
+
+    static void HandleCommand(string command)
+    {
+        if (UInt32.TryParse(command, out uint parsed))
+        {
+            Printer.PrintString($"You entered: {parsed} - {Instructions[(int)(parsed % 6)]}");
+
+            return;
+        }
+
+        Printer.PrintNewLine($"This is what you wrote: {command}");
+        AlgebraCommands.HandleInput(command);
+    }
+
+    static bool AreYouSure()
+    {
+        Printer.PrintNewLine("Are you sure you wanna exit? ... <n> to abort.");
+        Printer.PrintNewLineWithBreak("... yes? <enter>, <y>, or anything else to exit.");
+
+        string? input = Console.ReadLine();
+        if (!String.IsNullOrEmpty(input) && input.ToLower().StartsWith("n"))
+        {
+            Printer.PrintString("Exit aborted ... ");
+            PrintInstructions("What next? type something or <enter> to exit.");
+            return false;
+        }
+        Printer.PrintNewLine("Adios!");
+        return true;
+    }
+
+    // Declare a ResetConsole local method
+    static void ResetConsole(string prefix = "")
+    {
+        Printer.PrintNewLine("");
+        // Printer.PrintNewLine($"{prefix}... type anything to start over: ");
+        // Console.ReadLine();
+        // Console.Clear();
+        PrintInstructions("What's next?");
+    }
+
+    static void PrintInstructions(string prefix = "", string suffix = "")
+    {
+        Printer.PrintString($"Press <Enter> to exit; otherwise, type something (<H> for help) then <enter>:");
+    }
+
+    static void PrintHelp()
+    {
+        Printer.PrintNewLineWithBreak($"Try typing one of these keys or inputting a polynomial:");
+
+        foreach (var item in Instructions)
+        {
+            Printer.PrintNewLine(item.Value);
+        }
+
+        Printer.PrintNewLine($"Try it! or ... <enter> to exit.");
     }
 }

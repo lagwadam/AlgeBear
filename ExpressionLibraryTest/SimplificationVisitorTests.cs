@@ -183,4 +183,37 @@ public class SimplificationVisitorTests
         Debug.WriteLine(root.ToString());
         Assert.AreEqual("-1 + x + 2x^3 + x^5", root.ToString(), "Expanded coeffs should be {-1, 1, 1, 1, 0, 0, 1}");
     }
+
+    [TestMethod]
+    public void SimplicationVisitor_ln_with_no_simplifications_needed()
+    {
+        var coeffs = new Double[] {1, -2, 3};
+        var argPoly = new Polynomial(coeffs, new Variable("x"));
+
+        Debug.WriteLine(argPoly.ToString());
+
+        var root = new RootNode(new ln(argPoly));
+        new SimplificationVisitor().Visit(root);
+        Debug.WriteLine(root.ToString());
+
+        var expectedValue = new RootNode(new ln(argPoly)).ToString();
+        
+        Assert.AreEqual(expectedValue, root.ToString(), "Simplied ln should equal original ln because args is already simplified");
+    }
+
+    [TestMethod]
+    public void SimplicationVisitor_ln_with_polynomial_argument()
+    {
+        var coeffs = new Double[] {1, 1};
+
+        var argPoly = new Product(new Polynomial(coeffs, new Variable("x")), new Polynomial(coeffs, new Variable("x")));
+        Debug.WriteLine(argPoly.ToString());
+
+        var root = new RootNode(new ln(argPoly));
+
+        new SimplificationVisitor().Visit(root);
+        Debug.WriteLine(root.ToString());
+        
+        Assert.AreEqual("ln(1 + 2x + x^2)", root.ToString(), "Simplied ln should equal original ln because args is already simplified");
+    }
 }

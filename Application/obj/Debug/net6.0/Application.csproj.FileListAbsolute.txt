@@ -16,3 +16,4 @@ C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\obj\Debug\net6.0\refint
 C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\obj\Debug\net6.0\Application.pdb
 C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
 C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\obj\Debug\net6.0\ref\Application.dll
+C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\Newtonsoft.Json.dll
