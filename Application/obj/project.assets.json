@@ -26,7 +26,7 @@
         }
       }
     },
-    "net6.0/linux-x64": {
+    "net6.0/win-x64": {
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -151,7 +151,7 @@
         "warn": true,
         "downloadDependencies": [
           {
-            "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
             "version": "[6.0.10, 6.0.10]"
           },
           {
@@ -159,11 +159,11 @@
             "version": "[6.0.10, 6.0.10]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
             "version": "[6.0.10, 6.0.10]"
           },
           {
-            "name": "Microsoft.NETCore.App.Runtime.linux-x64",
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
             "version": "[6.0.10, 6.0.10]"
           }
         ],
@@ -176,7 +176,7 @@
       }
     },
     "runtimes": {
-      "linux-x64": {
+      "win-x64": {
         "#import": []
       }
     }

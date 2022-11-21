@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "djd+fCYRAbZsWyl+tC0VDBPokq85zipczyJbu0iZctZTCZYv2zm2Rf0OM2CsYjgmvWaFmPLBGoeLNKRdseXKGw==",
+  "dgSpecHash": "bS8HeHLD+Os3k9rLBl93r9Q3P/zMgFyf3JYhWRfLZgVfutgQWaTuvGXNjU59O0B3d93Kl+5mu3bJUHEJiDDvAA==",
   "success": true,
   "projectFilePath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lagwa\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\6.0.10\\microsoft.netcore.app.runtime.linux-x64.6.0.10.nupkg.sha512",
-    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\6.0.10\\microsoft.aspnetcore.app.runtime.linux-x64.6.0.10.nupkg.sha512",
-    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.10\\microsoft.netcore.app.crossgen2.win-x64.6.0.10.nupkg.sha512",
-    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\6.0.10\\microsoft.netcore.app.host.linux-x64.6.0.10.nupkg.sha512"
+    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.10\\microsoft.netcore.app.runtime.win-x64.6.0.10.nupkg.sha512",
+    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.10.nupkg.sha512",
+    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.10\\microsoft.aspnetcore.app.runtime.win-x64.6.0.10.nupkg.sha512",
+    "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.10\\microsoft.netcore.app.crossgen2.win-x64.6.0.10.nupkg.sha512"
   ],
   "logs": []
 }
