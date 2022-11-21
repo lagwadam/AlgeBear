@@ -1,8 +1,0 @@
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Application.exe
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Application.dll
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Application.deps.json
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Application.runtimeconfig.json
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Application.pdb
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\Newtonsoft.Json.dll
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\ExpressionLibrary.dll
-C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Debug\net6.0\publish\ExpressionLibrary.pdb

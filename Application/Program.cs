@@ -5,12 +5,11 @@ class Program
 {
     public static Dictionary<int, string> Instructions => new Dictionary<int, string>()
     {
-        // {1, "<1> 1st instruction"},
-        // {2, "<2> 2nd instruction"},
-        // {3, "<3> 3rd instruction"},
-        {4, "Enter polynomial coefficients: {1, 2, 3} => {1 + 2x + 2x^2}"},
-        {5, "Enter a polynomial product: {1, 2}*{-1, 2, 1} => (1 + 2x) * (1 + 2x + 2x^2) "},
-        {6, "Enter a sum of polynomials: Ex, {-1, -1} + {2, 1, 1} => (-1 + -x) + (2 + x + x^2) "}
+        {1, "Enter polynomial coefficients: [1, 2, 3] => 1 + 2x + 2x^2"},
+        {2, "Enter a polynomial product: [1, 2]*[-1, 2, 1] => (1 + 2x) * (1 + 2x + 2x^2) "},
+        {3, "Enter a sum of polynomials: Ex, [-1, -1] + [2, 1, 1] => (-1 + -x) + (2 + x + x^2) "},
+        {4, "Enter an exponential: Exp([-1, 0, 3, 0, 5]) "}
+
     };
 
     static void Main(string[] args)

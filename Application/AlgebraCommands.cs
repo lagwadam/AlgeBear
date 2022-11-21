@@ -7,6 +7,7 @@ namespace Application
     {
         Addition,
         Exp,
+        Log,
         Multiplication,
         Power,
         Unary
@@ -57,33 +58,45 @@ namespace Application
 
             if (input.Contains("+"))
             {
-                Printer.PrintNewLine("Deserializing polynomial addition ...");
+                Printer.PrintNewLine("Deserializing poly addition ...");
                 SerializedCoefficients = input.Split("+");
                 Operation = OperationEnum.Addition;
             }
             else if (input.Contains("*"))
             {
-                Printer.PrintNewLine("Deserializing polynomial multiplication ...");
+                Printer.PrintNewLine("Deserializing poly multiplication ...");
                 SerializedCoefficients = input.Split("*");
                 Operation = OperationEnum.Multiplication;
             }
-            else if (input.Contains("^"))
+            else if (input.Contains("Exp"))
             {
-                Printer.PrintNewLine("Deserializing polynomial exponentiation ...");
-                SerializedCoefficients = input.Split("^");
-                Operation = OperationEnum.Power;
-            }
-            else if (input.Contains("exp"))
-            {
-                Printer.PrintNewLine("Deserializing polynomial exponentiation ...");
-                var argument = input.Split("exp(").Last();
+                Printer.PrintNewLine("Deserializing Exp ...");
+                var argument = input.Split("Exp(").Last();
                 char endParen = ')';
+                Console.WriteLine($"argument: {argument}");
                 if (argument is not null && argument.Last() == endParen)
                 {
-                    argument = argument.Substring(0, argument.Length-1);
+                    argument = argument.Substring(0, argument.Length - 1);
                 }
-                SerializedCoefficients = new List<string> {argument!};
+                Console.WriteLine($"argument last: {argument}");
+                Console.WriteLine($"argument first: {input.Split("Exp(").First()}");
+                SerializedCoefficients.Add(argument!);
                 Operation = OperationEnum.Exp;
+            }
+            else if (input.Contains("Log"))
+            {
+                Printer.PrintNewLine("Deserializing Log ...");
+                var argument = input.Split("Log(").Last();
+                char endParen = ')';
+                Console.WriteLine($"argument: {argument}");
+                if (argument is not null && argument.Last() == endParen)
+                {
+                    argument = argument.Substring(0, argument.Length - 1);
+                }
+                Console.WriteLine($"argument last: {argument}");
+                Console.WriteLine($"argument first: {input.Split("Log(").First()}");
+                SerializedCoefficients.Add(argument!);
+                Operation = OperationEnum.Log;
             }
             else
             {
@@ -132,24 +145,30 @@ namespace Application
                 {
                     if (expression is null)
                     {
-                        var poly = new Polynomial(coeffs,new Variable("x"));
-                        var polyCopy = new Polynomial(coeffs,new Variable("x"));
+                        var poly = new Polynomial(coeffs, new Variable("x"));
+                        var polyCopy = new Polynomial(coeffs, new Variable("x"));
                         expression = new Exp(poly);
                         // Keep a copy of original Expression to show product rule
                         expressionCopy = new Polynomial(coeffs, new Variable("x"));
                     }
                     else
                     {
-                        // TODO: Add this when we support Powers in the CLI, test with Unit Test for now
-                        
-                        // Exp? arg = expression as Exp;
-                        // if(arg is not null)
-                        // {
-                        //     Exp newExp = new Exp()
-                        // }                        
-                        // expression = new Exp(expression, new Polynomial(coeffs, new Variable("x")));
-                        // // Keep a copy of original Expression to show product rule
-                        // expressionCopy = new Power(expressionCopy, new Polynomial(coeffs, new Variable("x")));
+                        // TODO: Need to define Exp(Exp(Exp ... recursively or Use Json Object
+                    }
+                }
+                else if (Operation == OperationEnum.Log)
+                {
+                    if (expression is null)
+                    {
+                        var poly = new Polynomial(coeffs, new Variable("x"));
+                        var polyCopy = new Polynomial(coeffs, new Variable("x"));
+                        expression = new Log(poly);
+                        // Keep a copy of original Expression to show product rule
+                        expressionCopy = new Polynomial(coeffs, new Variable("x"));
+                    }
+                    else
+                    {
+                        // TODO: Need to define Log(Log(Log ... recursively or Use Json Object
                     }
                 }
                 else if (Operation == OperationEnum.Power)
@@ -194,7 +213,19 @@ namespace Application
             }
 
             Printer.PrintLineWithBreak("The derivative of your polynomial is:");
-            Printer.PrintNewLineWithBreak($"dP/dx = {expression.Accept(dxVisitor).ToString() ?? string.Empty.ToString() ?? string.Empty}");
+            Printer.PrintNewLineWithBreak($"dP/dx = {expression.Accept(dxVisitor).ToString()}");
+
+            try
+            {
+                var integrator = new IntegrationVisitor();
+                var integral = expression.Accept(integrator);
+                Printer.PrintLineWithBreak("The integral of your polynomial is:");
+                Printer.PrintNewLineWithBreak($" Int[P(x)]dx = {integral.ToString()}");
+            }
+            catch (Exception ex)
+            {
+                Printer.PrintNewLine($" Int[P(x)] dx = *??* Could not find integral of this expression. {ex.Message}");
+            }
 
             Printer.PrintNewLine($"We can also take the derivative of the unsimplified polynomial using the product rule and the linearity of the derivative.");
             Printer.PrintNewLineWithBreak($"Check it out! Enter any key to see it ...");
@@ -203,7 +234,7 @@ namespace Application
             expressionCopy = expressionCopy!.Accept(dxVisitor);
             Printer.PrintNewLineWithBreak($"dP/dx = {expressionCopy.ToString()}");
 
-            Printer.PrintNewLine($"This [can be simplified as well to: {Simplify(expressionCopy)}");
+            Printer.PrintNewLine($"This can be simplified as well to: {Simplify(expressionCopy)}");
 
             Printer.PrintNewLine($"The Evaluation visitor can calculate values, enter any key ...");
             Console.ReadLine();

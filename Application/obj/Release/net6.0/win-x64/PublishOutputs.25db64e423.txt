@@ -1,0 +1,3 @@
+C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Release\net6.0\win-x64\publish\Application.pdb
+C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Release\net6.0\win-x64\publish\ExpressionLibrary.pdb
+C:\Users\lagwa\Downloads\_VS Code\AlgebraApp\Application\bin\Release\net6.0\win-x64\publish\Application.exe
