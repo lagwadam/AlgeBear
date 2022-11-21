@@ -5,7 +5,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Test Debugger",
+            // "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -16,9 +17,21 @@
             "stopAtEntry": false
         },
         {
-            "name": ".NET Core Attach",
+            "name": "Console Debugger",
             "type": "coreclr",
-            "request": "attach"
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Application/bin/Debug/net6.0/win-x64/Application.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Application",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
         }
     ]
+     // ,
+        // {
+        //     "name": ".NET Core Attach",
+        //     "type": "coreclr",
+        //     "request": "attach"
+        // }
 }

@@ -12,7 +12,7 @@ public static class Util
     }
 
     public static string FormatParens(IExpression expression)
-    { 
+    {
         string result = expression.ToString();
 
         // 1. If expression not primative, it's composite (complicated), so wrap with parens.
@@ -27,7 +27,7 @@ public static class Util
     }
 
     public static string FormatCoeff(Double coefficient)
-    { 
+    {
         if (coefficient == 1)
         {
             return string.Empty;
@@ -38,6 +38,11 @@ public static class Util
             return "-";
         }
 
-        return coefficient.ToString();
+        return Rounded(coefficient);
+    }
+
+    public static string Rounded(double val)
+    {
+        return val.ToString("#.####");
     }
 }

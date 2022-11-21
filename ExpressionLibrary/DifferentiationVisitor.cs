@@ -11,7 +11,7 @@ namespace UtilityLibraries
         }
         public DifferentiationVisitor()
         {
-            // TODO: Refactor to use Constructor with Dependency Injection 
+            // TODO: Refactor to use Constructor with Dependency Injection
             _simplifier = new SimplificationVisitor();
         }
         public IExpression Visit(Constant expression)
@@ -28,10 +28,10 @@ namespace UtilityLibraries
                 var casted = polynomialDerivative as Polynomial;
                 if (casted is not null)
                 {
-                    return _simplifier.Visit(casted);    
+                    return _simplifier.Visit(casted);
                 }
                 return polynomialDerivative.Accept(_simplifier);
-            } 
+            }
 
             var dFirst = expression.Left.Accept(this);
             var dSecond = expression.Right.Accept(this);
@@ -41,7 +41,7 @@ namespace UtilityLibraries
             _simplifier.Visit(derivative); // Adds polynomials
 
             return derivative;
-        }   
+        }
 
         public IExpression Visit(Sum expression)
         {
@@ -65,10 +65,10 @@ namespace UtilityLibraries
                 var casted = polynomialDerivative as Polynomial;
                 if (casted is not null)
                 {
-                    return _simplifier.Visit(casted);    
+                    return _simplifier.Visit(casted);
                 }
                 return polynomialDerivative.Accept(_simplifier);
-            } 
+            }
 
             var dArg = expression.Argument.Accept(this);
 
@@ -78,50 +78,25 @@ namespace UtilityLibraries
             return derivative;
         }
 
-        public IExpression Visit(ln expression)
+        public IExpression Visit(Log expression)
         {
             // Special Case for polynomials ... so it will simplify nicely
-            var polynomialDerivative = Differentiate_ln_WithPolynomialArg(expression);
+            IExpression polynomialDerivative = Differentiate_ln_WithPolynomialArg(expression);
+
             if (polynomialDerivative is not null)
             {
-                var casted = polynomialDerivative as Polynomial;
-                if (casted is not null)
-                {
-                    return _simplifier.Visit(casted);    
-                }
-                return polynomialDerivative.Accept(_simplifier);
-            } 
+                return (polynomialDerivative);
+            }
 
+            // Take the derivatives for any IExpression in the arument;
             var dArg = expression.Argument.Accept(this);
 
-            var derivative = new Quotient(dArg.Accept(this), new Polynomial(new Double[] {0, 1}, expression.Argument));
+            var derivative = new Quotient(dArg.Accept(this), new Polynomial(new Double[] { 0, 1 }, expression.Argument));
             _simplifier.Visit(derivative); // Simplifies arg
 
             return derivative;
         }
 
-        // public IExpression Visit(Function expression)
-        // {
-        //     // Special Case for polynomials ... so it will simplify nicely
-        //     var polynomialDerivative = DifferentiateFunctionWithPolynomialArg(expression);
-        //     if (polynomialDerivative is not null)
-        //     {
-        //         var casted = polynomialDerivative as Polynomial;
-        //         if (casted is not null)
-        //         {
-        //             return _simplifier.Visit(casted);    
-        //         }
-        //         return polynomialDerivative.Accept(_simplifier);
-        //     } 
-
-        //     var dArg = expression.Argument.Accept(this);
-
-        //     var derivative = new Product(dArg, expression);
-        //     _simplifier.Visit(derivative); // Simplifies arg
-
-        //     return derivative;
-        // }
-        
         public IExpression Visit(Quotient expression)
         {
             IExpression simplified = expression;
@@ -155,10 +130,23 @@ namespace UtilityLibraries
                 return new Constant(Math.Pow(leftConstant.Value, rightConstant.Value));
             }
 
-            expression.Left = expression.Left.Accept(this);
-            expression.Right = expression.Right.Accept(this);
+            var dLeft = expression.Left.Accept(this);
+            var dRight = expression.Right.Accept(this);
 
-            return expression;
+            // f(x)^(g(x) - 1)*g(x)f'(x) + [f(x)^(g(x) - 1)]f(x)log(f(x))g'(x)
+            // f(x)^(g(x) - 1)*g(x)f'(x) + H*g'(x)log(f(x))
+
+            var var = new Polynomial(new double[] {0, 1}, new Variable("x"));
+
+            var firstSummandLeft = new Power(expression.Left, new Sum(expression.Right, new Polynomial(new double[] {-1}, new Variable("x"))));
+            var firstSummandRight = new Product(expression.Right, dLeft);
+            var firstSummand = new Product(firstSummandLeft, firstSummandRight);
+
+            var secondSummandLeft = new Product(expression, dRight);
+            var secondSummandRight = new Log(expression.Left);
+            var secondSummand = new Product(secondSummandLeft, secondSummandRight);
+
+            return new Sum(firstSummand, secondSummand);
         }
 
         public IExpression Visit(Polynomial poly)
@@ -166,6 +154,11 @@ namespace UtilityLibraries
             if (poly.InnerExpression.ExpressionType == ExpressionTypeEnum.Constant)
             {
                 return new Constant(0);
+            }
+
+            if (poly.Coefficients.Length == 0)
+            {
+                return new Polynomial(new double[] { 0 }, poly.InnerExpression);
             }
 
             var newArray = new Double[poly.Coefficients.Length - 1];
@@ -231,8 +224,8 @@ namespace UtilityLibraries
 
             return derivative;
         }
-        
-        public IExpression Differentiate_ln_WithPolynomialArg(ln expression)
+
+        public IExpression Differentiate_ln_WithPolynomialArg(Log expression)
         {
             var argPoly = expression.Argument as Polynomial;
 
@@ -243,10 +236,16 @@ namespace UtilityLibraries
 
             Polynomial dArg = this.Visit(argPoly) as Polynomial;
 
-            var derivative = new Quotient(dArg, new Polynomial(new Double[] {0, 1}, argPoly));
+            if (dArg is null)
+            {
+                return null;
+            }
+
+            var derivative = new Quotient(dArg, new Polynomial(new Double[] { 0, 1 }, argPoly));
             _simplifier.Visit(derivative); // Simplifies arg
 
             return derivative;
         }
     }
+    
 }

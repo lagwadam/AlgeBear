@@ -4,7 +4,7 @@ namespace UtilityLibraries
     {
         TReturn Visit(Constant expression);
         TReturn Visit(Exp expression);
-        TReturn Visit(ln expression);
+        TReturn Visit(Log expression);
         TReturn Visit(Quotient expression);
         TReturn Visit(Polynomial expression);
         TReturn Visit(Power expression);

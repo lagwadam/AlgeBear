@@ -192,11 +192,11 @@ public class SimplificationVisitorTests
 
         Debug.WriteLine(argPoly.ToString());
 
-        var root = new RootNode(new ln(argPoly));
+        var root = new RootNode(new Log(argPoly));
         new SimplificationVisitor().Visit(root);
         Debug.WriteLine(root.ToString());
 
-        var expectedValue = new RootNode(new ln(argPoly)).ToString();
+        var expectedValue = new RootNode(new Log(argPoly)).ToString();
         
         Assert.AreEqual(expectedValue, root.ToString(), "Simplied ln should equal original ln because args is already simplified");
     }
@@ -209,11 +209,11 @@ public class SimplificationVisitorTests
         var argPoly = new Product(new Polynomial(coeffs, new Variable("x")), new Polynomial(coeffs, new Variable("x")));
         Debug.WriteLine(argPoly.ToString());
 
-        var root = new RootNode(new ln(argPoly));
+        var root = new RootNode(new Log(argPoly));
 
         new SimplificationVisitor().Visit(root);
         Debug.WriteLine(root.ToString());
         
-        Assert.AreEqual("ln(1 + 2x + x^2)", root.ToString(), "Simplied ln should equal original ln because args is already simplified");
+        Assert.AreEqual("Log(1 + 2x + x^2)", root.ToString(), "Simplied ln should equal original ln because args is already simplified");
     }
 }

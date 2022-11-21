@@ -41,7 +41,7 @@ namespace UtilityLibraries
             return expression;
         }
 
-        public IExpression Visit(ln expression)
+        public IExpression Visit(Log expression)
         {
             var constant = expression.Argument as Constant;
 
@@ -93,8 +93,11 @@ namespace UtilityLibraries
             {
                 return expanded;
             }
-            
-            expression.Left = expression.Left.Accept(this);
+
+
+            var dFirst = expression.Left.Accept(this);
+            var dSecond = expression.Right.Accept(this);
+// TODO: Remove next line, and rename above vars ... they are not derivatives
             expression.Right = expression.Right.Accept(this);
 
             return expression;
@@ -157,7 +160,7 @@ namespace UtilityLibraries
         {
             var leftPoly = expression.Left as Polynomial;
             var rightPoly = expression.Right as Polynomial;
-            
+
             if (leftPoly is null || rightPoly is null)
             {
                 return null;
@@ -171,21 +174,21 @@ namespace UtilityLibraries
 
             var leftArray = leftPoly.Coefficients;
             var rightArray = rightPoly.Coefficients;
-            
+
             var newArray = new Double[Math.Max(leftArray.Length, rightArray.Length)];
 
-            for (int i=0; i<leftArray.Length; i++)
+            for (int i = 0; i < leftArray.Length; i++)
             {
                 newArray[i] += leftArray[i];
             }
 
-            for (int i=0; i<rightArray.Length; i++)
+            for (int i = 0; i < rightArray.Length; i++)
             {
                 newArray[i] += rightArray[i];
             }
 
             var newPoly = new Polynomial(newArray, leftPoly.InnerExpression);
-             
+
             return newPoly;
         }
 
@@ -193,7 +196,19 @@ namespace UtilityLibraries
         {
             var leftPoly = expression.Left as Polynomial;
             var rightPoly = expression.Right as Polynomial;
-            
+
+            var multipliedByConstant = MultiplyPolynomialByConstant(leftPoly, expression.Right as Constant);
+            if (multipliedByConstant is not null)
+            {
+                return multipliedByConstant;
+            }
+
+            multipliedByConstant = MultiplyPolynomialByConstant(rightPoly, expression.Left as Constant);
+            if (multipliedByConstant is not null)
+            {
+                return multipliedByConstant;
+            }
+
             if (leftPoly is null || rightPoly is null)
             {
                 return null;
@@ -207,20 +222,73 @@ namespace UtilityLibraries
 
             var leftArray = leftPoly.Coefficients;
             var rightArray = rightPoly.Coefficients;
-            
+
             var newArray = new Double[leftArray.Length + rightArray.Length];
 
-            for (int i=0; i<leftArray.Length; i++)
+            for (int i = 0; i < leftArray.Length; i++)
             {
-                for (int j=0; j<rightArray.Length; j++)
+                for (int j = 0; j < rightArray.Length; j++)
                 {
-                    newArray[i+j] += leftArray[i]*rightArray[j];
+                    newArray[i + j] += leftArray[i] * rightArray[j];
                 }
             }
 
             var newPoly = new Polynomial(newArray, leftPoly.InnerExpression);
-             
+
             return newPoly;
+        }
+
+        Polynomial MultiplyPolynomialByConstant(Polynomial poly, Constant constant)
+        {
+            if (constant is null)
+            {
+                return null;
+            }
+
+            if (poly is null)
+            {
+                if (constant.Value == 0)
+                {
+                    return new Polynomial(new double[] { 0 }, new Variable("x"));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            for (int i = 0; i < poly.Coefficients.Length; i++)
+            {
+                poly.Coefficients[i] = constant.Value * poly.Coefficients[i];
+            }
+
+            return poly;
+        }
+
+        Polynomial MultiplyPolynomialByVariable(Polynomial poly, Variable variable)
+        {
+            if (poly is null || variable is null)
+            {
+                return null;
+            }
+
+            var newCoeffs = new double[poly.Coefficients.Length + 1];
+            newCoeffs[0] = 0;
+            var allZeros = true;
+            for (int i = 0; i < poly.Coefficients.Length; i++)
+            {
+                if(poly.Coefficients[i] != 0)
+                {
+                    allZeros = false;
+                }
+                poly.Coefficients[i+1] = poly.Coefficients[i];
+            }
+
+            if (allZeros)
+            {
+                return new Polynomial(new double[] {0}, poly.InnerExpression);
+            }
+
+            return poly;
         }
 
         public IExpression SimplifySumConstants(Sum expression)

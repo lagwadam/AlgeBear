@@ -5,17 +5,16 @@ namespace UtilityLibraries
     public enum ExpressionTypeEnum
     {
         Constant,
-        cos,
-        e,
+        Cos,
         Exp,
         Function,
-        ln, // assumes base e
+        Log, // Assumes base e
         Polynomial,
         Power,
         Product,
         Quotient,
         RootNode,
-        sin,
+        Sin,
         Sum,
         Tan,
         Variable,
@@ -64,11 +63,7 @@ namespace UtilityLibraries
         public Double[] Coefficients { get; set; }
         public IExpression InnerExpression { get; set; }
         public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Polynomial;
-        public Polynomial(Double[] coefficients, IExpression innerExpression)
-        {
-            Coefficients = coefficients;
-            InnerExpression = innerExpression;
-        }
+        public Polynomial(Double[] coefficients, IExpression innerExpression) { Coefficients = coefficients; InnerExpression = innerExpression; }
         public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
         public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
         public override string ToString()
@@ -82,8 +77,14 @@ namespace UtilityLibraries
             IList<string> results = new List<string>();
             if (Coefficients.Length == 1)
             {
-                return Coefficients[0].ToString();
+                if(Coefficients[0] == 0)
+                {
+                    return "0";
+                }
+                return Util.Rounded(Coefficients[0]);
             }
+            // Return zero if all coefficients are zero
+            var allZeros = true;
             for (int i = 0; i < Coefficients.Length; i++)
             {
                 if (Coefficients[i] == 0)
@@ -91,9 +92,11 @@ namespace UtilityLibraries
                     continue;
                 }
 
+                allZeros = false;
+
                 if (i == 0)
                 {
-                    results.Add(Coefficients[0].ToString());
+                    results.Add(Util.Rounded(Coefficients[0]));
                     continue;
                 }
 
@@ -106,23 +109,34 @@ namespace UtilityLibraries
                 results.Add($"{Util.FormatCoeff(Coefficients[i])}{inner}^{i}");
             }
 
+            if (allZeros)
+            {
+                return "0";
+            }
+
             var result = String.Join(" + ", results);
             return result.Replace("+ -", "- ");
-
         }
     }
 
-    public class Exp : IComposite
+    public class Log : Function
     {
-        public IExpression Argument { get; set; }
-        public ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Exp;
-        public Exp(IExpression argument)
-        {
-            Argument = argument;
-        }
-        public virtual T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public virtual T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
-        public override string ToString() { return $"e^({Argument.ToString()})"; }
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Log;
+        public override string Name => "Log";
+        public override ExpressionTypeEnum InverseFunctionType => ExpressionTypeEnum.Exp;
+        public Log(IExpression argument) : base(argument) { }
+        public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
+    }
+
+    public class Exp : Function
+    {
+        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.Exp;
+        public override string Name => "Exp";
+        public override ExpressionTypeEnum InverseFunctionType => ExpressionTypeEnum.Log;
+        public Exp(IExpression argument) : base(argument) { }
+        public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
+        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
     }
 
     public abstract class Function : IFunction
@@ -138,21 +152,7 @@ namespace UtilityLibraries
         public abstract T Accept<T>(IExpressionTreeVisitor<T> visitor);
         public abstract T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source);
 
-        public override abstract string ToString();
-    }
-
-    public class ln : Function
-    {
-        public override ExpressionTypeEnum ExpressionType => ExpressionTypeEnum.ln;
-        public override string Name => "ln";
-
-        public override ExpressionTypeEnum InverseFunctionType => ExpressionTypeEnum.e;
-
-        public ln(IExpression argument) : base(argument) { }
-        public override T Accept<T>(IExpressionTreeVisitor<T> visitor) { return visitor.Visit(this); }
-        public override T Accept<T>(IExpressionMatchingVisitor<T> visitor, IExpression source) { return visitor.Visit(this, source); }
-
-        public override string ToString() { return $"ln({Argument.ToString()})"; }
+        public override string ToString() { return $"{Name}({Argument.ToString()})"; }
     }
 
     public class Power : BinaryOperation

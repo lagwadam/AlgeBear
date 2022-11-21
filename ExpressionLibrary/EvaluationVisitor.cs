@@ -19,7 +19,7 @@ namespace UtilityLibraries
             return Math.Exp(expression.Argument.Accept(this));
         }
 
-        public double Visit(ln expression)
+        public double Visit(Log expression)
         {
             return Math.Log(expression.Argument.Accept(this));
         }
@@ -65,7 +65,7 @@ namespace UtilityLibraries
 
         public double Visit(RootNode expression)
         {
-            return expression.Accept(this);
+            return expression.InnerExpression.Accept(this);
         }
 
         public double Visit(Variable expression)
