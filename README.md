@@ -1,6 +1,6 @@
-# Foobar
+# Algebra App
 
-Foobar is a Python library for dealing with word pluralization.
+This is a mini-cas library for processing algebra and calculus expressions
 
 ## Installation
 
