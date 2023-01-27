@@ -2,7 +2,7 @@
 
 AlgeBear is here to help you with your Calculus and Alegbra; I promise! So it's time to party [Hardy](https://en.wikipedia.org/wiki/G._H._Hardy) 🥳
 
-<code>🚨 Find the latest code in the ***Patch*** branch 🚨</code>
+<code>Find the latest code in the ***Patch*** branch</code>
 
 ## Installation
 
