@@ -2,6 +2,8 @@
 
 AlgeBear is hear to help wit you alebra and calculus!
 
+> 🚨 Fin the latest code in the Patch branch 🚨
+
 ## Installation
 
 run this file:
