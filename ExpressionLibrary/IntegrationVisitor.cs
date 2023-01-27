@@ -7,6 +7,13 @@ namespace UtilityLibraries
         private readonly SimplificationVisitor _simplifier;
         private readonly EvaluationVisitor _evaluator;
         private readonly DifferentiationVisitor _differentiator;
+        public IntegrationVisitor(Polynomial seriesRepresentation, Polynomial seriesIntegralRep, double center)
+        {
+            this.SeriesRepresentation = seriesRepresentation;
+            this.SeriesIntegralRep = seriesIntegralRep;
+            this.Center = center;
+
+        }
         public Polynomial SeriesRepresentation { get; private set; }
         public Polynomial SeriesIntegralRep { get; private set; }
         public double Center { get; set; }
@@ -234,11 +241,11 @@ namespace UtilityLibraries
                 Polynomial polyArg = expression.Argument as Polynomial;
                 if (polyArg.ToString() == "x" && polyArg.InnerExpression.ExpressionType == ExpressionTypeEnum.Variable)
                 {
-                    var prod = new Product(new Log(polyArg), new Polynomial(new double[]{0,1}, polyArg));
-                    return new Sum(prod, new Polynomial(new double[]{0,-1}, polyArg));
+                    var prod = new Product(new Log(polyArg), new Polynomial(new double[] { 0, 1 }, polyArg));
+                    return new Sum(prod, new Polynomial(new double[] { 0, -1 }, polyArg));
                 }
-                
-                throw new Exception("Cannot integrate Log functions with composition");
+                return expression;
+                // throw new Exception("Cannot integrate Log functions with composition");
             }
         }
 
