@@ -4,9 +4,8 @@ This is a mini-cas library for processing algebra and calculus expressions
 
 ## Installation
 
-run this file:
 ```bash
-
+AlgeBear.exe
 ```
 
 ## CLI Usage
