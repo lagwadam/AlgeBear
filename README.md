@@ -6,9 +6,8 @@ AlgeBear is hear to help wit you alebra and calculus!
 
 ## Installation
 
-run this file:
 ```bash
-
+AlgeBear.exe
 ```
 
 ## CLI Usage
