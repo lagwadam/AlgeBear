@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibrary\\ExpressionLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibrary\\ExpressionLibrary.csproj",
       "projectName": "ExpressionLibrary",
-      "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibrary\\ExpressionLibrary.csproj",
+      "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibrary\\ExpressionLibrary.csproj",
       "packagesPath": "C:\\Users\\lagwa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibrary\\obj\\",
+      "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lagwa\\AppData\\Roaming\\NuGet\\NuGet.Config"

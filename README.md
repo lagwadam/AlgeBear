@@ -1,4 +1,4 @@
-# Algebra App
+# AlgeBear 🐻
 
 This is a mini-cas library for processing algebra and calculus expressions
 
@@ -6,7 +6,7 @@ This is a mini-cas library for processing algebra and calculus expressions
 
 run this file:
 ```bash
-AlgebraApp.exe
+
 ```
 
 ## CLI Usage
@@ -33,9 +33,9 @@ Please make sure to update tests as appropriate.
 
 ## Publishing
 
-This Microsoft [doc](https://learn.microsoft.com/en-us/dotnet/core/deploying/) explains everything, but (TLDR) just run one of these commands from the <code>AlgebraApp\Application</code> folder<code>*</code>. 
+This Microsoft [doc](https://learn.microsoft.com/en-us/dotnet/core/deploying/) explains everything, but (TLDR) just run one of these commands from the <code>AlgeBear\Application</code> folder<code>*</code>. 
 
-###### <code>*</code>Note, this is the subfolder that contains the <code>Application.csproj</code> which is different than the root folder (AlgebraApp) mentioned in the debuggin section below.
+###### <code>*</code>Note, this is the subfolder that contains the <code>Application.csproj</code> which is different than the root folder (AlgeBear) mentioned in the debuggin section below.
 
 
 | Release | Command |
@@ -61,7 +61,7 @@ Find published artifacts in one of these folders depending on the system for the
 
 ## Testing & Debugging
 
-To run the tests, just run this <code>dotnet test</code> from the solution's root folder __AlgebraApp__. This will print out the results and any errors in the terminal. 
+To run the tests, just run this <code>dotnet test</code> from the solution's root folder __AlgeBear__. This will print out the results and any errors in the terminal. 
 
 Instead of debugging all the tests, I find it easier to debug a single test buy clicking the "__debug__ button under the test's name in the editor. 
 
@@ -104,7 +104,7 @@ While this is nice, you cannot get detailed feedback unless you debug it. Naviga
 
 You can also use the vs code ui. Choose __Start Debugging__ from the __Run__ menu *(F5 is THE shortcut)*.
 
-Lastly, make sure to build from the solution's root folder __Algebra App__. If you are having trouble attaching the debugger all of a sudden, try closing vs code, deleting any __bin__ or __out__ folders, re-opening vs code, cleaning the solution, building the solution, and re-running the tests.
+Lastly, make sure to build from the solution's root folder __AlgeBear__. If you are having trouble attaching the debugger all of a sudden, try closing vs code, deleting any __bin__ or __out__ folders, re-opening vs code, cleaning the solution, building the solution, and re-running the tests.
 
 
 

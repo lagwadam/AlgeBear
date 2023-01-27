@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/vObDyATKvW1Ed4G1X77zk4As6AX7E1cOTLcabLL6DNujoSWazUPsgHh9LQU0Cdmqjut/FIrV6KizUq+zhuz2Q==",
+  "dgSpecHash": "6/InFiz3qr/giheYci4+OwRtJ4+C+o35+PHGpqQ4XfFopAMbKgldWWMSqIsOWW0Q8gW9WoJMnWAVP6vRkTxopQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibraryTest\\ExpressionLibraryTest.csproj",
+  "projectFilePath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibraryTest\\ExpressionLibraryTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lagwa\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\lagwa\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
