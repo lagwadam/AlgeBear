@@ -98,11 +98,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\Application\\Application.csproj",
+      "projectUniqueName": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\Application\\Application.csproj",
+      "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\lagwa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\Application\\obj\\",
+      "outputPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lagwa\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -117,8 +117,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibrary\\ExpressionLibrary.csproj": {
-              "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgebraApp\\ExpressionLibrary\\ExpressionLibrary.csproj"
+            "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibrary\\ExpressionLibrary.csproj": {
+              "projectPath": "C:\\Users\\lagwa\\Downloads\\_VS Code\\AlgeBear\\ExpressionLibrary\\ExpressionLibrary.csproj"
             }
           }
         }

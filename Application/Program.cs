@@ -15,7 +15,7 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("");
-        PrintInstructions($"Welcome to the (mini-cas) Algebra App.");
+        PrintInstructions($"Welcome, AlgeBear is here to Help! 🐻");
         do
         {
             string? input = Console.ReadLine();
