@@ -1,6 +1,6 @@
 # AlgeBear 🧸
 
-AlgeBear is hear to help wit you alebra and calculus!
+AlgeBear is hear to help you with your alebra and calculus!
 
 <code>🚨 Find the latest code in the ***Patch*** branch 🚨</code>
 
