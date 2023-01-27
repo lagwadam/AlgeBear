@@ -1,6 +1,6 @@
-# AlgeBear 🐻
+# AlgeBear 🧸
 
-This is a mini-cas library for processing algebra and calculus expressions
+AlgeBear is here to help you with your Calculus and Alegbra; I promise! So it's time to party [Hardy!  🥳](https://en.wikipedia.org/wiki/G._H._Hardy)
 
 ## Installation
 
